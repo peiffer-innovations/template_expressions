@@ -1,0 +1,8 @@
+{
+  "firstName": "${user['firstName']}",
+  "lastName": "${json_path(user, '$.lastName')}",
+  "email": "${user['firstName'].toLowerCase()}.${user['lastName'].toLowerCase()}@example.com",
+  "preferences": {
+    "clock": "${json_path(preferences, '$.clock')}"
+  }
+}

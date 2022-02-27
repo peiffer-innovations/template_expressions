@@ -5,19 +5,22 @@ import 'expressions.dart';
 
 class ExpressionParser {
   ExpressionParser() {
-    expression.set(binaryExpression.seq(conditionArguments.optional()).map(
-        (l) => l[1] == null
-            ? l[0]
-            : ConditionalExpression(l[0], l[1][0], l[1][1])));
+    expression.set(
+      binaryExpression.seq(conditionArguments.optional()).map(
+            (l) => l[1] == null
+                ? l[0]
+                : ConditionalExpression(l[0], l[1][0], l[1][1]),
+          ),
+    );
     token.set((literal | unaryExpression | variable).cast<Expression>());
   }
 
   // Gobbles only identifiers
   // e.g.: `foo`, `_value`, `$x1`
   Parser<Identifier> get identifier =>
-      (digit().not() & (word() | char(r'$')).plus())
-          .flatten()
-          .map((v) => Identifier(v));
+      (digit().not() & (word() | char(r'$')).plus()).flatten().map(
+            (v) => Identifier(v),
+          );
 
   // Parse simple numeric literals: `12`, `3.4`, `.5`.
   Parser<Literal> get numericLiteral => ((digit() | char('.')).and() &

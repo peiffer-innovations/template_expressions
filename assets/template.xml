@@ -1,0 +1,8 @@
+<doc>
+  <firstName>${user['firstName']}</firstName>,
+  <lastName>${json_path(user, '$.lastName')}</lastName>,
+  <email>${user['firstName'].toLowerCase()}.${user['lastName'].toLowerCase()}@example.com}</email>,
+  <preferences>
+    <clock>${json_path(preferences, '$.clock')}</clock>
+  </preferences>
+</doc>

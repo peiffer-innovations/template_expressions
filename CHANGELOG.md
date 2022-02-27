@@ -1,3 +1,3 @@
-## [0.1.0] - February 12th, 2022
+## [1.0.0] - February 26th, 2022
 
-* Internal beta
+* Initial Release

@@ -1,0 +1,10 @@
+{
+  "user": {
+    "firstName": "John",
+    "lastName": "Smith"
+  },
+  "preferences": {
+    "language": "en-us",
+    "clock": "12h"
+  }
+}

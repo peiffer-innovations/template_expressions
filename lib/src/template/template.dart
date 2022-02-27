@@ -9,15 +9,31 @@ class Template {
             : const [StandardExpressionSyntax()],
         _value = value;
 
+  static final Map<String, Object> _delegate = {
+    ...DateTimeFunctions.functions,
+    ...DurationFunctions.functions,
+    ...JsonPathFunctions.functions,
+    'value': (value) => value,
+  };
+
   final List<ExpressionSyntax> _syntax;
   final String _value;
 
-  String process({Map<String, Object> context = const {}}) {
+  String process({Map<dynamic, dynamic> context = const {}}) {
     var buffer = StringBuffer();
     var length = _value.length;
-    var entries = <TemplateEntry>[];
+    var entries = <ExpressionEntry>[];
 
-    TemplateEntry? entry;
+    var ctx = <String, Object>{};
+    for (var entry in context.entries) {
+      if (entry.key != null && entry.value != null) {
+        ctx[entry.key.toString()] = entry.value;
+      }
+    }
+
+    _delegate.forEach((key, value) => ctx.putIfAbsent(key, () => value));
+
+    ExpressionEntry? entry;
 
     var start = '';
     var end = '';
@@ -41,7 +57,7 @@ class Template {
               startSyntax = true;
 
               if (syntax.startToken == start) {
-                entry = TemplateEntry(
+                entry = ExpressionEntry(
                   syntax: syntax,
                   startPosition: (i + 1) - start.length,
                 );
@@ -91,7 +107,7 @@ class Template {
     for (var entry in entries) {
       data = entry.replace(
         data,
-        evaluator.eval(Expression.parse(entry.content), context),
+        evaluator.eval(Expression.parse(entry.content), ctx).toString(),
       );
     }
 
