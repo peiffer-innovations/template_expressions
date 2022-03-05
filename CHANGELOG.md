@@ -1,4 +1,4 @@
-## [1.0.1] - March 5th, 2022
+## [1.0.1+1] - March 5th, 2022
 
 * Added `Codex` built in type
 

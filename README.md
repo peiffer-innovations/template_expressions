@@ -129,8 +129,8 @@ utf8.decode(value)
 
 | Function | Example |
 |----------|---------|
-| decode | `${base64().decode(value)`|
-| encode | `${base64().encode(value)`|
+| decode | `${base64.decode(value)`|
+| encode | `${base64.encode(value)`|
 
 ---
 
