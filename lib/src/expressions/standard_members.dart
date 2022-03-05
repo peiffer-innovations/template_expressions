@@ -1,13 +1,16 @@
 import 'package:intl/intl.dart';
 import 'package:json_class/json_class.dart';
 import 'package:json_path/json_path.dart';
+import 'package:template_expressions/template_expressions.dart';
 
 /// Associates member functions from common objects for use by the expression
 /// evaluator.
 dynamic lookupStandardMembers(dynamic target, String name) {
   dynamic result;
 
-  if (target is DateFormat) {
+  if (target is Codex) {
+    result = _processCodex(target, name);
+  } else if (target is DateFormat) {
     result = _processDateFormat(target, name);
   } else if (target is DateTime) {
     result = _processDateTime(target, name);
@@ -44,6 +47,22 @@ dynamic lookupStandardMembers(dynamic target, String name) {
         result = target.toString;
         break;
     }
+  }
+
+  return result;
+}
+
+dynamic _processCodex(Codex target, String name) {
+  dynamic result;
+
+  switch (name) {
+    case 'decode':
+      result = target.decode;
+      break;
+
+    case 'encode':
+      result = target.encode;
+      break;
   }
 
   return result;

@@ -3,6 +3,7 @@ export 'expressions.dart';
 export 'src/template/expression_entry.dart';
 export 'src/template/expression_syntax.dart';
 
+export 'src/template/functions/codex_functions.dart';
 export 'src/template/functions/date_time_functions.dart';
 export 'src/template/functions/duration_functions.dart';
 export 'src/template/functions/json_path_functions.dart';
@@ -13,3 +14,5 @@ export 'src/template/syntax/pipe_expression_syntax.dart';
 export 'src/template/syntax/standard_expression_syntax.dart';
 
 export 'src/template/template.dart';
+
+export 'src/types/codex.dart';

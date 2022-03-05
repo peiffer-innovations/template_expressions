@@ -10,6 +10,7 @@ class Template {
         _value = value;
 
   static final Map<String, Object> _delegate = {
+    ...CodexFunctions.members,
     ...DateTimeFunctions.functions,
     ...DurationFunctions.functions,
     ...JsonPathFunctions.functions,

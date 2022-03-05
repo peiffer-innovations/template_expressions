@@ -11,6 +11,7 @@
     * [PipeExpressionSyntax](#pipeexpressionsyntax)
     * [StandardExpressionSyntax](#standardexpressionsyntax)
 * [Built in Objects and Members](#built-in-objects-and-members)
+    * [Codex](#codex)
     * [DateFormat](#dateformat)
     * [DateTime](#datetime)
     * [Duration](#duration)
@@ -105,6 +106,34 @@ The standard expression syntax follows the Dart string interpolation pattern.  T
 ---
 
 ## Built in Objects and Members
+
+### Codex
+
+The [Codex](https://pub.dev/documentation/template_expressions/latest/template_expressions/Codex-class.html) class is supported for encoding and decoding values.
+
+#### Example
+
+```
+base64.encode(value)
+hex.encode(value)
+json.encode(value)
+utf8.encode(value)
+
+base64.decode(value)
+hex.decode(value)
+json.decode(value)
+utf8.decode(value)
+```
+
+#### Member Functions
+
+| Function | Example |
+|----------|---------|
+| decode | `${base64().decode(value)`|
+| encode | `${base64().encode(value)`|
+
+---
+
 
 ### DateFormat
 
