@@ -66,7 +66,6 @@ class ExpressionEvaluator {
     ...DateTimeFunctions.functions,
     ...DurationFunctions.functions,
     ...JsonPathFunctions.functions,
-    'value': (value) => value,
   };
 
   final List<MemberAccessor> memberAccessors;
