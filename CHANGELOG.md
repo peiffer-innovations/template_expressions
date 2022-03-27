@@ -1,3 +1,9 @@
+## [1.1.0] - March 27th, 2022
+
+* Moved the standard functions from the template to the expressions itself
+* Dart 2.16
+
+
 ## [1.0.1+1] - March 5th, 2022
 
 * Added `Codex` built in type

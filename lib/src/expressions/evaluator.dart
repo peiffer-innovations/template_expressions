@@ -4,7 +4,16 @@ import 'package:meta/meta.dart';
 
 import 'async_evaluator.dart';
 import 'expressions.dart';
+import 'functions/codex_functions.dart';
+import 'functions/date_time_functions.dart';
+import 'functions/duration_functions.dart';
+import 'functions/json_path_functions.dart';
 import 'standard_members.dart';
+
+export 'functions/codex_functions.dart';
+export 'functions/date_time_functions.dart';
+export 'functions/duration_functions.dart';
+export 'functions/json_path_functions.dart';
 
 /// Handles evaluation of expressions
 ///
@@ -52,6 +61,14 @@ class ExpressionEvaluator {
   const factory ExpressionEvaluator.async(
       {List<MemberAccessor> memberAccessors}) = AsyncExpressionEvaluator;
 
+  static final Map<String, Object> _delegate = {
+    ...CodexFunctions.members,
+    ...DateTimeFunctions.functions,
+    ...DurationFunctions.functions,
+    ...JsonPathFunctions.functions,
+    'value': (value) => value,
+  };
+
   final List<MemberAccessor> memberAccessors;
 
   dynamic eval(
@@ -59,25 +76,27 @@ class ExpressionEvaluator {
     Map<String, dynamic> context,
   ) {
     dynamic result;
+    var ctx = Map<String, dynamic>.from(context);
+    _delegate.forEach((key, value) => ctx.putIfAbsent(key, () => value));
 
     if (expression is Literal) {
-      result = evalLiteral(expression, context);
+      result = evalLiteral(expression, ctx);
     } else if (expression is Variable) {
-      result = evalVariable(expression, context);
+      result = evalVariable(expression, ctx);
     } else if (expression is ThisExpression) {
-      result = evalThis(expression, context);
+      result = evalThis(expression, ctx);
     } else if (expression is MemberExpression) {
-      result = evalMemberExpression(expression, context);
+      result = evalMemberExpression(expression, ctx);
     } else if (expression is IndexExpression) {
-      result = evalIndexExpression(expression, context);
+      result = evalIndexExpression(expression, ctx);
     } else if (expression is CallExpression) {
-      result = evalCallExpression(expression, context);
+      result = evalCallExpression(expression, ctx);
     } else if (expression is UnaryExpression) {
-      result = evalUnaryExpression(expression, context);
+      result = evalUnaryExpression(expression, ctx);
     } else if (expression is BinaryExpression) {
-      result = evalBinaryExpression(expression, context);
+      result = evalBinaryExpression(expression, ctx);
     } else if (expression is ConditionalExpression) {
-      result = evalConditionalExpression(expression, context);
+      result = evalConditionalExpression(expression, ctx);
     } else {
       throw ArgumentError(
           "Unknown expression type '${expression.runtimeType}'");

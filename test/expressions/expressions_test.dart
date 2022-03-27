@@ -203,7 +203,7 @@ void main() {
           's': [null]
         }
       };
-      var expressions = {'l[1]': 2, "m['z']": 5, "m['s'][0]": null};
+      var expressions = {'l[1]': 2, "m['z']": 5, 'm["s"][0]': null};
 
       expressions.forEach((e, r) {
         expect(evaluator.eval(Expression.parse(e), context), r);

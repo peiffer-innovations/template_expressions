@@ -9,14 +9,6 @@ class Template {
             : const [StandardExpressionSyntax()],
         _value = value;
 
-  static final Map<String, Object> _delegate = {
-    ...CodexFunctions.members,
-    ...DateTimeFunctions.functions,
-    ...DurationFunctions.functions,
-    ...JsonPathFunctions.functions,
-    'value': (value) => value,
-  };
-
   final List<ExpressionSyntax> _syntax;
   final String _value;
 
@@ -31,8 +23,6 @@ class Template {
         ctx[entry.key.toString()] = entry.value;
       }
     }
-
-    _delegate.forEach((key, value) => ctx.putIfAbsent(key, () => value));
 
     ExpressionEntry? entry;
 
