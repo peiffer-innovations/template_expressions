@@ -1,4 +1,4 @@
-## [1.1.0] - March 27th, 2022
+## [1.1.0+1] - March 27th, 2022
 
 * Moved the standard functions from the template to the expressions itself
 * Dart 2.16

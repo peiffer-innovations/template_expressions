@@ -14,7 +14,7 @@ dependencies:
   json_class: ^2.1.2+4
   json_path: ^0.4.0
   meta: ^1.7.0
-  petitparser: ^5.0.0
+  petitparser: ">=4.4.0 <6.0.0"
   quiver: ^3.0.1+1
   rxdart: ^0.27.3
 
