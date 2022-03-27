@@ -1,4 +1,4 @@
-## [1.1.1] - March 27th, 2022
+## [1.1.1+1] - March 27th, 2022
 
 * Removed undocumented `value` function
 

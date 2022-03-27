@@ -2,7 +2,7 @@ name: template_expressions
 description: A Dart library to process string based templates using expressions.
 homepage: https://github.com/peiffer-innovations/template_expressions
 
-version: 1.1.1
+version: 1.1.1+1
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
@@ -12,7 +12,7 @@ dependencies:
   fake_async: ^1.2.0
   intl: ^0.17.0
   json_class: ^2.1.2+4
-  json_path: ^0.4.0
+  json_path: ">=0.3.0 <0.5.0"
   meta: ^1.7.0
   petitparser: ">=4.0.2 <6.0.0"
   quiver: ^3.0.1+1
