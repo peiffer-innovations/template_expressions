@@ -99,7 +99,7 @@ class Template {
       var evaled = evaluator.eval(Expression.parse(entry.content), ctx);
       data = entry.replace(
         data,
-        evaled == null ? '' : evaled.toString(),
+        evaled == null ? '' : evaled.toString().trim(),
       );
     }
 
