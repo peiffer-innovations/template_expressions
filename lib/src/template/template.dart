@@ -96,9 +96,10 @@ class Template {
     entries.sort();
     var evaluator = const ExpressionEvaluator();
     for (var entry in entries) {
+      var evaled = evaluator.eval(Expression.parse(entry.content), ctx);
       data = entry.replace(
         data,
-        evaluator.eval(Expression.parse(entry.content), ctx).toString(),
+        evaled == null ? '' : evaled.toString(),
       );
     }
 

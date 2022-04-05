@@ -14,6 +14,16 @@ void main() {
 
     test('nullable map', () {
       var template = Template(
+        value: r'${map["foo"].isNotEmpty}',
+      );
+      expect(
+        template.process(context: context),
+        '',
+      );
+    });
+
+    test('nullable map', () {
+      var template = Template(
         value: r'${map["foo"].isNotEmpty == true ? "notEmpty": "empty"}',
       );
       expect(

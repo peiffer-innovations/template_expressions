@@ -1,4 +1,4 @@
-## [1.1.2] - April 4th, 2022
+## [1.1.2+1] - April 4th, 2022
 
 * Updated to be null friendly and not throw exceptions when attempting to access against null values
 
