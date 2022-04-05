@@ -1,3 +1,8 @@
+## [1.1.2] - April 4th, 2022
+
+* Updated to be null friendly and not throw exceptions when attempting to access against null values
+
+
 ## [1.1.1+1] - March 27th, 2022
 
 * Removed undocumented `value` function

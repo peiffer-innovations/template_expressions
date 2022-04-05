@@ -207,12 +207,12 @@ void main() {
     test('json_path', () {
       var template = Template(
         value:
-            r'${json_path(person, "$.name.first") + " " + json_path(person, "$.name.last")}',
+            r'${json_path(person, "$.name.first").toUpperCase() + " " + json_path(person, "$.name.last").toUpperCase()}',
       );
 
       expect(
         template.process(context: context),
-        'John Doe',
+        'JOHN DOE',
       );
     });
   });

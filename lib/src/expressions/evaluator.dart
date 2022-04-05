@@ -85,9 +85,17 @@ class ExpressionEvaluator {
     } else if (expression is ThisExpression) {
       result = evalThis(expression, ctx);
     } else if (expression is MemberExpression) {
-      result = evalMemberExpression(expression, ctx);
+      result = evalMemberExpression(
+        expression,
+        ctx,
+        nullable: expression.nullable,
+      );
     } else if (expression is IndexExpression) {
-      result = evalIndexExpression(expression, ctx);
+      result = evalIndexExpression(
+        expression,
+        ctx,
+        nullable: expression.nullable,
+      );
     } else if (expression is CallExpression) {
       result = evalCallExpression(expression, ctx);
     } else if (expression is UnaryExpression) {
@@ -139,19 +147,25 @@ class ExpressionEvaluator {
   @protected
   dynamic evalMemberExpression(
     MemberExpression expression,
-    Map<String, dynamic> context,
-  ) {
+    Map<String, dynamic> context, {
+    bool nullable = false,
+  }) {
     var obj = eval(expression.object, context);
 
-    return getMember(obj, expression.property.name);
+    return getMember(obj, expression.property.name, nullable: nullable);
   }
 
   @protected
   dynamic evalIndexExpression(
     IndexExpression expression,
-    Map<String, dynamic> context,
-  ) {
-    return eval(expression.object, context)[eval(expression.index, context)];
+    Map<String, dynamic> context, {
+    bool nullable = false,
+  }) {
+    var indexed = eval(expression.object, context);
+
+    return indexed == null && nullable
+        ? null
+        : indexed[eval(expression.index, context)];
   }
 
   @protected
@@ -301,10 +315,7 @@ class ExpressionEvaluator {
   }
 
   @protected
-  dynamic getMember(
-    dynamic obj,
-    String member,
-  ) {
+  dynamic getMember(dynamic obj, String member, {bool nullable = false}) {
     var found = false;
     dynamic result;
 
@@ -327,7 +338,7 @@ class ExpressionEvaluator {
       }
     }
 
-    if (!found) {
+    if (!found && !nullable) {
       throw ExpressionEvaluatorException.memberAccessNotSupported(
           obj.runtimeType, member);
     }

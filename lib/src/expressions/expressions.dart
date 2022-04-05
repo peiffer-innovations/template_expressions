@@ -77,11 +77,12 @@ class ThisExpression extends SimpleExpression {}
 class MemberExpression extends SimpleExpression {
   MemberExpression(
     this.object,
-    this.property,
-  );
+    this.property, {
+    this.nullable = false,
+  });
 
+  final bool nullable;
   final Expression object;
-
   final Identifier property;
 
   @override
@@ -91,12 +92,13 @@ class MemberExpression extends SimpleExpression {
 class IndexExpression extends SimpleExpression {
   IndexExpression(
     this.object,
-    this.index,
-  );
+    this.index, {
+    this.nullable = false,
+  });
 
-  final Expression object;
-
+  final bool nullable;
   final Expression index;
+  final Expression object;
 
   @override
   String toString() => '${object.toTokenString()}[$index]';
@@ -105,11 +107,13 @@ class IndexExpression extends SimpleExpression {
 class CallExpression extends SimpleExpression {
   CallExpression(
     this.callee,
-    this.arguments,
-  );
+    this.arguments, {
+    this.nullable = false,
+  });
 
-  final Expression callee;
   final List<Expression> arguments;
+  final Expression callee;
+  final bool nullable;
 
   @override
   String toString() => '${callee.toTokenString()}(${arguments.join(', ')})';

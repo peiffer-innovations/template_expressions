@@ -86,7 +86,10 @@ class AsyncExpressionEvaluator extends ExpressionEvaluator {
 
   @override
   Stream evalIndexExpression(
-      IndexExpression expression, Map<String, dynamic> context) {
+    IndexExpression expression,
+    Map<String, dynamic> context, {
+    bool nullable = false,
+  }) {
     var obj = eval(expression.object, context);
     var index = eval(expression.index, context);
     return CombineLatestStream.combine2(obj, index, (obj, index) {
@@ -112,7 +115,10 @@ class AsyncExpressionEvaluator extends ExpressionEvaluator {
 
   @override
   Stream evalMemberExpression(
-      MemberExpression expression, Map<String, dynamic> context) {
+    MemberExpression expression,
+    Map<String, dynamic> context, {
+    bool nullable = false,
+  }) {
     var v = eval(expression.object, context);
 
     return v.switchMap((v) {

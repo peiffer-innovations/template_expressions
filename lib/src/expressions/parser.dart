@@ -214,9 +214,9 @@ class ExpressionParser {
           dynamic result;
 
           if (argument is Identifier) {
-            result = MemberExpression(object, argument);
+            result = MemberExpression(object, argument, nullable: true);
           } else if (argument is Expression) {
-            result = IndexExpression(object, argument);
+            result = IndexExpression(object, argument, nullable: true);
           } else if (argument is List<Expression>) {
             result = CallExpression(object, argument);
           } else {
