@@ -1,3 +1,8 @@
+## [1.1.3] - April 5th, 2022
+
+* Better logging on exceptions in the template
+
+
 ## [1.1.2+2] - April 4th, 2022
 
 * Updated to be null friendly and not throw exceptions when attempting to access against null values

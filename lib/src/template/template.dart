@@ -1,3 +1,4 @@
+import 'package:logging/logging.dart';
 import 'package:template_expressions/template_expressions.dart';
 
 class Template {
@@ -8,6 +9,8 @@ class Template {
             ? syntax!
             : const [StandardExpressionSyntax()],
         _value = value;
+
+  static final Logger _logger = Logger('Template');
 
   final List<ExpressionSyntax> _syntax;
   final String _value;
@@ -96,11 +99,16 @@ class Template {
     entries.sort();
     var evaluator = const ExpressionEvaluator();
     for (var entry in entries) {
-      var evaled = evaluator.eval(Expression.parse(entry.content), ctx);
-      data = entry.replace(
-        data,
-        evaled == null ? '' : evaled.toString().trim(),
-      );
+      try {
+        var evaled = evaluator.eval(Expression.parse(entry.content), ctx);
+        data = entry.replace(
+          data,
+          evaled == null ? '' : evaled.toString().trim(),
+        );
+      } catch (e, stack) {
+        _logger.severe('Unable to parse input: [${entry.content}]', e, stack);
+        rethrow;
+      }
     }
 
     return data;
