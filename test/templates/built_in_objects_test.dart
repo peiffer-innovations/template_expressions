@@ -215,5 +215,16 @@ void main() {
         'JOHN DOE',
       );
     });
+
+    test('json_path simple', () {
+      var template = Template(
+        value: r"${json_path(person, '$.name.first')}",
+      );
+
+      expect(
+        template.process(context: context),
+        'John',
+      );
+    });
   });
 }
