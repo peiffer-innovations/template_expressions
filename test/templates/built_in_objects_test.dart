@@ -1,7 +1,85 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:template_expressions/template_expressions.dart';
 import 'package:test/test.dart';
 
 void main() {
+  group('Crypto', () {
+    test(
+      'hmac',
+      () {
+        var key =
+            'YWFCa3hKezJNRlQrK0EhPkBrJj5oem42OlUpWCElJVlaMmM+K3RhamA7Zjk3Z1ArRkQ7K1J6bl46diRVSz03UDJwTlczeydnNWc/MmtzdlNmY3I1fUszcShnI31jITg+XlRXcXd4V0VbRntHSEFBS2grUUZUKFR6MmFaPVQqJ04=';
+        var context = {'key': key};
+
+        var template = Template(value: r'${hmac(key, "foobar")}');
+        var actual = template.process(context: context);
+
+        expect(actual,
+            'e52f174665d7ad3791c2cf8d1f7ab93f654189926975c02defbe3439cdb48716');
+      },
+    );
+
+    test(
+      'hmac256',
+      () {
+        var key =
+            'YWFCa3hKezJNRlQrK0EhPkBrJj5oem42OlUpWCElJVlaMmM+K3RhamA7Zjk3Z1ArRkQ7K1J6bl46diRVSz03UDJwTlczeydnNWc/MmtzdlNmY3I1fUszcShnI31jITg+XlRXcXd4V0VbRntHSEFBS2grUUZUKFR6MmFaPVQqJ04=';
+        var context = {'key': key};
+
+        var template = Template(value: r'${hmac256(key, "foobar")}');
+        var actual = template.process(context: context);
+
+        expect(actual,
+            'e52f174665d7ad3791c2cf8d1f7ab93f654189926975c02defbe3439cdb48716');
+      },
+    );
+
+    test(
+      'hmac512',
+      () {
+        var key =
+            'YWFCa3hKezJNRlQrK0EhPkBrJj5oem42OlUpWCElJVlaMmM+K3RhamA7Zjk3Z1ArRkQ7K1J6bl46diRVSz03UDJwTlczeydnNWc/MmtzdlNmY3I1fUszcShnI31jITg+XlRXcXd4V0VbRntHSEFBS2grUUZUKFR6MmFaPVQqJ04=';
+        var context = {'key': key};
+
+        var template = Template(value: r'${hmac512(key, "foobar")}');
+        var actual = template.process(context: context);
+
+        expect(actual,
+            '1a3a8dc298ecc8c97855e29454145a2deb39a86bb56f49c2bb951c9cbd07f22abf28d868230834973fb4f87cb6121f6cbb2d4ce29f378305a5b3cd7dc8d09aad');
+      },
+    );
+
+    test('md5', () {
+      var template = Template(value: r'${md5("foobar")}');
+      var actual = template.process();
+
+      expect(actual, md5.convert(utf8.encode('foobar')).toString());
+    });
+
+    test('sha', () {
+      var template = Template(value: r'${sha("foobar")}');
+      var actual = template.process();
+
+      expect(actual, sha256.convert(utf8.encode('foobar')).toString());
+    });
+
+    test('sha256', () {
+      var template = Template(value: r'${sha256("foobar")}');
+      var actual = template.process();
+
+      expect(actual, sha256.convert(utf8.encode('foobar')).toString());
+    });
+
+    test('sha512', () {
+      var template = Template(value: r'${sha512("foobar")}');
+      var actual = template.process();
+
+      expect(actual, sha512.convert(utf8.encode('foobar')).toString());
+    });
+  });
+
   group('DateTime', () {
     var context = <String, dynamic>{};
     context['year'] = 2022;
@@ -225,6 +303,28 @@ void main() {
         template.process(context: context),
         'John',
       );
+    });
+  });
+
+  group('random', () {
+    test('int', () {
+      var template = Template(
+        value: r'${random(100)}',
+      );
+
+      var processed = int.parse(template.process());
+
+      expect(processed >= 0 && processed < 100, true);
+    });
+
+    test('double', () {
+      var template = Template(
+        value: r'${random()}',
+      );
+
+      var processed = double.parse(template.process());
+
+      expect(processed >= 0.0 && processed < 1.0, true);
     });
   });
 }

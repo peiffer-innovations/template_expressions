@@ -1,3 +1,10 @@
+## [1.1.4] - April 16th, 2022
+
+* Fixed duration_functions to return milliseconds rather than microseconds
+* Added `random` function
+* Added `hmac`, `md5`, `sha256`, and `sha512` functions
+
+
 ## [1.1.3] - April 5th, 2022
 
 * Better logging on exceptions in the template

@@ -49,9 +49,8 @@ class DurationFunctions {
                       ),
     'days': (value) => Duration(hours: JsonClass.parseInt(value)! * 24),
     'hours': (value) => Duration(minutes: JsonClass.parseInt(value)!),
-    'milliseconds': (value) => Duration(
-          microseconds: JsonClass.parseInt(value)!,
-        ),
+    'milliseconds': (value) =>
+        Duration(milliseconds: JsonClass.parseInt(value)!),
     'minutes': (value) => Duration(minutes: JsonClass.parseInt(value)!),
     'seconds': (value) => Duration(seconds: JsonClass.parseInt(value)!),
   };

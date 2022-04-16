@@ -1,19 +1,22 @@
 library expressions.evaluator;
 
 import 'package:meta/meta.dart';
+import 'package:template_expressions/expressions.dart';
 
 import 'async_evaluator.dart';
-import 'expressions.dart';
-import 'functions/codex_functions.dart';
-import 'functions/date_time_functions.dart';
-import 'functions/duration_functions.dart';
-import 'functions/json_path_functions.dart';
+// import 'expressions.dart';
+// import 'functions/codex_functions.dart';
+// import 'functions/date_time_functions.dart';
+// import 'functions/duration_functions.dart';
+// import 'functions/json_path_functions.dart';
 import 'standard_members.dart';
 
 export 'functions/codex_functions.dart';
+export 'functions/crypto_functions.dart';
 export 'functions/date_time_functions.dart';
 export 'functions/duration_functions.dart';
 export 'functions/json_path_functions.dart';
+export 'functions/random_functions.dart';
 
 /// Handles evaluation of expressions
 ///
@@ -63,9 +66,11 @@ class ExpressionEvaluator {
 
   static final Map<String, Object> _delegate = {
     ...CodexFunctions.members,
+    ...CryptoFunctions.functions,
     ...DateTimeFunctions.functions,
     ...DurationFunctions.functions,
     ...JsonPathFunctions.functions,
+    ...RandomFunctions.functions,
   };
 
   final List<MemberAccessor> memberAccessors;

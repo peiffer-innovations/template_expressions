@@ -12,6 +12,7 @@
     * [StandardExpressionSyntax](#standardexpressionsyntax)
 * [Built in Objects and Members](#built-in-objects-and-members)
     * [Codex](#codex)
+    * [Crypto](#crypto)
     * [DateFormat](#dateformat)
     * [DateTime](#datetime)
     * [Duration](#duration)
@@ -21,6 +22,7 @@
     * [JsonPathMatch](#jsonpathmatch)
     * [Map](#map)
     * [num](#num)
+    * [random](#random)
     * [String](#string)
     * [Object](#object)
 
@@ -113,7 +115,7 @@ The [Codex](https://pub.dev/documentation/template_expressions/latest/template_e
 
 #### Example
 
-```
+```dart
 base64.encode(value)
 hex.encode(value)
 json.encode(value)
@@ -134,6 +136,26 @@ utf8.decode(value)
 
 ---
 
+### Crypto
+
+The [Crypto](https://pub.dev/packages/crypto) functions exist for things like `md5`, `sha256`, `sha512`, and `hmac` functionality.  Each function returns a lower case HEX encoded string of the resulting hash.
+
+#### Example
+
+```dart
+md5(string)
+
+hmac(secret, message) // synonym to hmac256
+hmac256(secret, message) // synonym to hmac
+hmac512(secret, message)
+
+sha(string) // synonym to sha256
+sha256(string) // synonym to sha
+sha512(string)
+```
+
+
+---
 
 ### DateFormat
 
@@ -368,6 +390,20 @@ The following [num](https://api.flutter.dev/flutter/dart-core/num-class.html) me
 | [toStringAsPrecision](https://api.flutter.dev/flutter/dart-core/num/toStringAsPrecision.html) | `${number.toStringAsPrecision(precision)}` |
 | [truncate](https://api.flutter.dev/flutter/dart-core/num/truncate.html) | `${number.truncate()}` |
 | [truncateToDouble](https://api.flutter.dev/flutter/dart-core/num/truncateToDouble.html) | `${number.truncateToDouble()}` |
+
+---
+
+### random
+
+The `random` function will operate in two modes.  If a number is passed in, it will return a random integer between 0 and that number - 1.  Otherwise, it will return a random double that is greater or equal to 0 and less than 1.
+
+#### Example
+
+```dart
+random(100) // returns 0 - 99
+random() // returns >= 0 < 1
+```
+
 
 ---
 
