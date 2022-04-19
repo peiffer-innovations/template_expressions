@@ -382,6 +382,16 @@ dynamic _processList(List target, String name) {
         return target;
       };
       break;
+
+    case 'toJson':
+      result = ([padding]) {
+        var indent = JsonClass.parseInt(padding) ?? 0;
+
+        return indent == 0
+            ? json.encode(target)
+            : JsonEncoder.withIndent(''.padLeft(indent, ' ')).convert(target);
+      };
+      break;
   }
 
   if (result == null) {
@@ -425,6 +435,16 @@ dynamic _processMap(Map target, String name) {
 
     case 'remove':
       result = target.remove;
+      break;
+
+    case 'toJson':
+      result = ([padding]) {
+        var indent = JsonClass.parseInt(padding) ?? 0;
+
+        return indent == 0
+            ? json.encode(target)
+            : JsonEncoder.withIndent(''.padLeft(indent, ' ')).convert(target);
+      };
       break;
 
     case 'values':

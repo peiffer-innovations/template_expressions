@@ -330,6 +330,7 @@ In addition to the items supported by the [Iterable](#iterable) class, a [List](
 |----------|---------|
 | [asMap](https://api.flutter.dev/flutter/dart-core/List/asMap.html) | `${list.asMap()[2]}` |
 | [reversed](https://api.flutter.dev/flutter/dart-core/List/reversed.html) | `${list.reversed.first}` |
+| toJson([int padding]) | `${list.toJson(2)}` |
 | [sort](https://api.flutter.dev/flutter/dart-core/List/sort.html) | `${list.sort().first}` |
 
 Additionally, if the list is a `List<int>` or a `Uint8List` then there are additional helper functions that can be used:
@@ -401,6 +402,7 @@ The following [Map](https://api.flutter.dev/flutter/dart-core/Map-class.html) me
 | [isNotEmpty](https://api.flutter.dev/flutter/dart-core/Map/isNotEmpty.html) | `${map.isNotEmpty ? map.values.first : 'null'}` |
 | [length](https://api.flutter.dev/flutter/dart-core/Map/length.html) | `${map.length}` |
 | [remove](https://api.flutter.dev/flutter/dart-core/Map/remove.html) | `${map.remove('key')}` |
+| toJson([int padding]) | `${map.toJson(2)}` |
 | [values](https://api.flutter.dev/flutter/dart-core/Map/values.html) | `${map.values.first}` |
 
 
@@ -459,10 +461,11 @@ The following [String](https://api.flutter.dev/flutter/dart-core/String-class.ht
 
 #### Member Functions
 
-| Function | Example |
-|----------|---------|
+| Function | Example | Description |
+|----------|---------|-------------|
 | [compareTo](https://api.flutter.dev/flutter/dart-core/String/compareTo.html) | `${str.compareTo(other)}` |
 | [contains](https://api.flutter.dev/flutter/dart-core/String/contains.html) | `${str.contains('other')}` |
+| decode | `${str.decode()["firstName"]}` | Decodes the string first trying as JSON and second as YAML to convert it to a map or a list
 | [endsWith](https://api.flutter.dev/flutter/dart-core/String/endsWith.html) | `${str.endsWith('other')}` |
 | [indexOf](https://api.flutter.dev/flutter/dart-core/String/indexOf.html) | `${str.indexOf('other')}` |
 | [isEmpty](https://api.flutter.dev/flutter/dart-core/String/isEmpty.html) | `${str.isEmpty ? 'null' : str}` |

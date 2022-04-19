@@ -1,7 +1,8 @@
-## [1.1.5] - April 18th, 2022
+## [1.1.5+1] - April 18th, 2022
 
 * Added `AES` and `RSA` for encryption and description
 * Added pointycastle dependency
+* Added `toJson` functions to both `Map` and `List`
 
 
 ## [1.1.4] - April 16th, 2022

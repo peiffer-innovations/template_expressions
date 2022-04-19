@@ -119,6 +119,50 @@ void main() {
     });
   });
 
+  group('List', () {
+    test('toJson', () {
+      var context = {
+        'input': [
+          'John',
+          'Smith',
+        ]
+      };
+
+      expect(
+        Template(value: r'${input.toJson(2)}').process(context: context),
+        JsonEncoder.withIndent('  ').convert(context['input']),
+      );
+
+      expect(
+        Template(value: r'${input.toJson()}').process(context: context),
+        json.encode(context['input']),
+      );
+    });
+  });
+
+  group('Map', () {
+    test('toJson', () {
+      var context = {
+        'input': {
+          'name': {
+            'first': 'John',
+            'last': 'Smith',
+          },
+        },
+      };
+
+      expect(
+        Template(value: r'${input.toJson(2)}').process(context: context),
+        JsonEncoder.withIndent('  ').convert(context['input']),
+      );
+
+      expect(
+        Template(value: r'${input.toJson()}').process(context: context),
+        json.encode(context['input']),
+      );
+    });
+  });
+
   group('String', () {
     test('decode', () {
       var template = Template(
