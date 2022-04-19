@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:convert/convert.dart';
 import 'package:intl/intl.dart';
 import 'package:json_class/json_class.dart';
 import 'package:json_path/json_path.dart';
 import 'package:template_expressions/template_expressions.dart';
+import 'package:yaon/yaon.dart' as yaon;
 
 /// Associates member functions from common objects for use by the expression
 /// evaluator.
@@ -18,9 +23,6 @@ dynamic lookupStandardMembers(dynamic target, String name) {
     result = _processDuration(target, name);
   } else if (target is Iterable) {
     result = _processIterable(target, name);
-    if (target is List && result == null) {
-      result = _processList(target, name);
-    }
   } else if (target is JsonPath) {
     result = _processJsonPath(target, name);
   } else if (target is JsonPathMatch) {
@@ -31,6 +33,10 @@ dynamic lookupStandardMembers(dynamic target, String name) {
     result = _processNum(target, name);
   } else if (target is String) {
     result = _processString(target, name);
+  } else if (target is Aes) {
+    result = _processAes(target, name);
+  } else if (target is Rsa) {
+    result = _processRsa(target, name);
   }
 
   if (target != null && result == null) {
@@ -47,6 +53,38 @@ dynamic lookupStandardMembers(dynamic target, String name) {
         result = target.toString;
         break;
     }
+  }
+
+  return result;
+}
+
+dynamic _processAes(Aes target, String name) {
+  dynamic result;
+
+  switch (name) {
+    case 'decrypt':
+      result = target.decrypt;
+      break;
+
+    case 'encrypt':
+      result = target.encrypt;
+      break;
+
+    case 'iv':
+      result = target.iv;
+      break;
+
+    case 'key':
+      result = target.key;
+      break;
+
+    case 'mode':
+      result = target.mode;
+      break;
+
+    case 'padding':
+      result = target.padding;
+      break;
   }
 
   return result;
@@ -195,6 +233,26 @@ dynamic _processDuration(Duration target, String name) {
   return result;
 }
 
+dynamic _processIntList(List<int> bytes, String name) {
+  dynamic result;
+
+  switch (name) {
+    case 'toBase64':
+      result = () => base64.encode(bytes);
+      break;
+
+    case 'toHex':
+      result = () => hex.encode(bytes);
+      break;
+
+    case 'toString':
+      result = () => utf8.decode(bytes);
+      break;
+  }
+
+  return result;
+}
+
 dynamic _processIterable(Iterable target, String name) {
   dynamic result;
 
@@ -250,6 +308,10 @@ dynamic _processIterable(Iterable target, String name) {
     case 'toSet':
       result = target.toSet;
       break;
+  }
+
+  if (target is List && result == null) {
+    result = _processList(target, name);
   }
 
   return result;
@@ -320,6 +382,14 @@ dynamic _processList(List target, String name) {
         return target;
       };
       break;
+  }
+
+  if (result == null) {
+    if (target is List<int>) {
+      result = _processIntList(target, name);
+    } else if (target is Uint8List) {
+      result = _processIntList(target.toList(), name);
+    }
   }
 
   return result;
@@ -461,6 +531,46 @@ dynamic _processNum(num target, String name) {
   return result;
 }
 
+dynamic _processRsa(Rsa target, String name) {
+  dynamic result;
+
+  switch (name) {
+    case 'aes':
+      result = target.aes;
+      break;
+
+    case 'decrypt':
+      result = target.decrypt;
+      break;
+
+    case 'encoding':
+      result = target.encoding;
+      break;
+
+    case 'encrypt':
+      result = target.encrypt;
+      break;
+
+    case 'privateKey':
+      result = target.privateKey;
+      break;
+
+    case 'publicKey':
+      result = target.publicKey;
+      break;
+
+    case 'sign':
+      result = target.sign;
+      break;
+
+    case 'verify':
+      result = target.verify;
+      break;
+  }
+
+  return result;
+}
+
 dynamic _processString(String target, String name) {
   dynamic result;
 
@@ -471,6 +581,10 @@ dynamic _processString(String target, String name) {
 
     case 'contains':
       result = target.contains;
+      break;
+
+    case 'decode':
+      result = () => yaon.parse(target);
       break;
 
     case 'endsWith':

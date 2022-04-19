@@ -1,5 +1,6 @@
 library expressions.evaluator;
 
+import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:template_expressions/expressions.dart';
 
@@ -15,6 +16,7 @@ export 'functions/codex_functions.dart';
 export 'functions/crypto_functions.dart';
 export 'functions/date_time_functions.dart';
 export 'functions/duration_functions.dart';
+export 'functions/encrypt_functions.dart';
 export 'functions/json_path_functions.dart';
 export 'functions/random_functions.dart';
 
@@ -69,9 +71,12 @@ class ExpressionEvaluator {
     ...CryptoFunctions.functions,
     ...DateTimeFunctions.functions,
     ...DurationFunctions.functions,
+    ...EncryptFunctions.functions,
     ...JsonPathFunctions.functions,
     ...RandomFunctions.functions,
   };
+
+  static final Logger _logger = Logger('ExpressionEvaluator');
 
   final List<MemberAccessor> memberAccessors;
 
@@ -79,6 +84,7 @@ class ExpressionEvaluator {
     Expression expression,
     Map<String, dynamic> context,
   ) {
+    _logger.finest('[eval]: evaluating.... [${expression.toTokenString()}]');
     dynamic result;
     var ctx = Map<String, dynamic>.from(context);
     _delegate.forEach((key, value) => ctx.putIfAbsent(key, () => value));
@@ -157,6 +163,7 @@ class ExpressionEvaluator {
   }) {
     var obj = eval(expression.object, context);
 
+    _logger.finest('[evalMemberExpression]: [${expression.property.name}]');
     return getMember(obj, expression.property.name, nullable: nullable);
   }
 
@@ -180,7 +187,19 @@ class ExpressionEvaluator {
   ) {
     var callee = eval(expression.callee, context);
     var arguments = expression.arguments.map((e) => eval(e, context)).toList();
-    return Function.apply(callee, arguments);
+
+    _logger.finest('[evalCallExpression]: [${expression.callee}]');
+
+    try {
+      return Function.apply(callee, arguments);
+    } catch (e, stack) {
+      _logger.severe(
+        '[evalCallExpression]: Exception in evaluation of: [${expression.toTokenString()}]',
+        e,
+        stack,
+      );
+      rethrow;
+    }
   }
 
   @protected

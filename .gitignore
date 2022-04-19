@@ -9,6 +9,7 @@
 .history
 .svn/
 pubspec.lock
+output
 
 # IntelliJ related
 *.iml

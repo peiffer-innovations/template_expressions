@@ -10,6 +10,7 @@ environment:
 dependencies:
   convert: ^3.0.1
   crypto: ^3.0.1
+  encrypt: ^5.0.1
   fake_async: ^1.2.0
   intl: ^0.17.0
   json_class: ^2.1.2+4
@@ -19,6 +20,7 @@ dependencies:
   petitparser: ">=4.0.2 <6.0.0"
   quiver: ^3.0.1+1
   rxdart: ^0.27.3
+  yaon: ^1.0.0+1
 
 dev_dependencies:
   test: ^1.21.0

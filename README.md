@@ -16,6 +16,7 @@
     * [DateFormat](#dateformat)
     * [DateTime](#datetime)
     * [Duration](#duration)
+    * [Encrypt](#encrypt)
     * [Iterable](#iterable)
         * [List](#list)
     * [JsonPath](#jsonpath)
@@ -131,8 +132,8 @@ utf8.decode(value)
 
 | Function | Example |
 |----------|---------|
-| decode | `${base64.decode(value)`|
-| encode | `${base64.encode(value)`|
+| decode | `${base64.decode(value)}`|
+| encode | `${base64.encode(value)}`|
 
 ---
 
@@ -260,6 +261,41 @@ DateFormat(List<int> daysHoursMinutesSecondsMilliseconds)
 
 ---
 
+
+### Encrypt
+
+The [Encrypt](https://pub.dev/packages/encrypt) functions exist for `AES` and `RSA` cryptography functions.
+
+#### Example
+
+```dart
+AES().key(key).encrypt(plainText)
+AES().key(key).decrypt(encrypted)
+
+RSA().publicKey(publicKey).encrypt(data).toBase64()
+RSA().privateKey(privateKey).decrypt(data)
+
+RSA().privateKey(privateKey).sign(data).toBase64()
+RSA().publicKey(publicKey).verify(data, signature)
+```
+
+#### Member Functions
+
+| Class | Function     | Param(s) | Returns | Description |
+|-------|--------------|----------|---------|-------------|
+| `AES` | `key`        | (`String` \| `Uint8List` \| `List<int>` \| `SecureRandom`: key) | `AES` | Sets the secret key on the AES object.  If the input is a String, it must be base64 encoded.
+| `AES` | `iv`         | (`String` \| `Uint8List` \| `List<int>` \| `IV`: iv) | `AES` | Sets the IV on the AES object (should only be used for testing, for production code always use a generated IV and never a common one).  If the input is a String, it must be base64 encoded.
+| `AES` | `decrypt`    | (`String`: encrypted) | `List<int>` | Decrypts the value.  Either the IV must be prior to calling this or it must be passed in base64 encoded at the start of the string followed by a colon and then the encrypted string.  The encrypted string must also be base64 encoded
+| `AES` | `encrypt`    | (`String` \| `Uint8List` \| `List<int>`: unencrypted) | `String` | Encrypts the passed in value, prepends the base64 encoded IV + `:` and returns the base64 encoded encrypted value.
+| `RSA` | `publicKey`  | (`String` \| `RSAPublicKey`: publicKey) | `RSA` | Accepts a String encoded PEM file or a public key object and sets it on the RSA object.
+| `RSA` | `privateKey` | (`String` \| `RSAPrivateKey`: privateKey) | `RSA` | Accepts a String encoded PEM file or a private key object and sets it on the RSA object.
+| `RSA` | `decrypt`    | (`String` | `List<int>`: encrypted) | Decrypts the value.  This works by reversing the values from the `RSA.encrypt`.
+| `RSA` | `encrypt`    | (`String` \| `Uint8List` \| `List<int>`: unencrypted) | `String` | This is a multi-step process.  Either an AES object must have already been passed in, or a new one with a random key and random IV will be created.  The key from the AES object will be encrypted using the RSA Public Key, base64 encoded, and added to the resulting key.  Next the result from encrypting the value using AES will be appended to the returned string.  The resulting string is: `${rsaEncryptedAesKey}:${aesIV}:${aesEncryptedValue}`.
+| `RSA` | `sign`       | `String` \| `Uint8List` \| `List<int>` | `List<int>` |  Signs the given message and returns the bytes list.
+| `RSA` | `verify`     | (`String` \| `Uint8List` \| `List<int>`: message, <br />`String` \| `Uint8List` \| `List<int>`: signature) | `List<int>` |  Signs the given message and returns the bytes list.
+
+---
+
 ### Iterable
 
 Several member functions from the [Iterable](https://api.flutter.dev/flutter/dart-core/Iterable-class.html) class are supported.
@@ -295,6 +331,16 @@ In addition to the items supported by the [Iterable](#iterable) class, a [List](
 | [asMap](https://api.flutter.dev/flutter/dart-core/List/asMap.html) | `${list.asMap()[2]}` |
 | [reversed](https://api.flutter.dev/flutter/dart-core/List/reversed.html) | `${list.reversed.first}` |
 | [sort](https://api.flutter.dev/flutter/dart-core/List/sort.html) | `${list.sort().first}` |
+
+Additionally, if the list is a `List<int>` or a `Uint8List` then there are additional helper functions that can be used:
+
+#### Int List Member Functions
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| toBase64 | Base64 encodes the byte array | `${list.toBase64()}` |
+| toHex    | Hex encodes the byte array    | `${list.toHex()}` |
+| toString | UTF8 encodes the byte array   | `${list.toString()}` |
 
 ---
 
@@ -436,6 +482,11 @@ The following [String](https://api.flutter.dev/flutter/dart-core/String-class.ht
 | [trimLeft](https://api.flutter.dev/flutter/dart-core/String/trimLeft.html) | `${str.trimLeft()}` |
 | [trimRight](https://api.flutter.dev/flutter/dart-core/String/trimRight.html) | `${str.trimRight()}` |
 
+#### Custom Functions
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| `decode` | Attempts to decode the string using both a JSON and a YAML parser.  If either is successful, the resulting map or list is returned. | `${str.decode()["firstName"]}`
 
 ---
 

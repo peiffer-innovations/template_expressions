@@ -1,10 +1,26 @@
 import 'dart:convert';
 
+import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
+import 'package:logging/logging.dart';
 import 'package:template_expressions/template_expressions.dart';
 import 'package:test/test.dart';
 
 void main() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    // ignore: avoid_print
+    print('${record.level.name}: ${record.time}: ${record.message}');
+    if (record.error != null) {
+      // ignore: avoid_print
+      print('${record.error}');
+    }
+    if (record.stackTrace != null) {
+      // ignore: avoid_print
+      print('${record.stackTrace}');
+    }
+  });
+
   group('Crypto', () {
     test(
       'hmac',
@@ -302,6 +318,37 @@ void main() {
       expect(
         template.process(context: context),
         'John',
+      );
+    });
+  });
+
+  group('List<int>', () {
+    var input = 'Hello, World!';
+
+    test('toBase64', () {
+      expect(
+        Template(value: r'${input.toBase64()}').process(
+          context: {'input': utf8.encode(input)},
+        ),
+        base64.encode(utf8.encode(input)),
+      );
+    });
+
+    test('toHex', () {
+      expect(
+        Template(value: r'${input.toHex()}').process(
+          context: {'input': utf8.encode(input)},
+        ),
+        hex.encode(utf8.encode(input)),
+      );
+    });
+
+    test('toString', () {
+      expect(
+        Template(value: r'${input.toString()}').process(
+          context: {'input': utf8.encode(input)},
+        ),
+        input,
       );
     });
   });

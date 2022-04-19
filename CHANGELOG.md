@@ -1,8 +1,9 @@
-## [1.1.4] - April 16th, 2022
+## [1.1.4] - April 18th, 2022
 
 * Fixed duration_functions to return milliseconds rather than microseconds
 * Added `random` function
 * Added `hmac`, `md5`, `sha256`, and `sha512` functions
+* Added `AES` and `RSA` for encryption and description
 
 
 ## [1.1.3] - April 5th, 2022

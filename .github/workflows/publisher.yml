@@ -3,6 +3,8 @@ name: Flutter Publisher
 on:
   push:
     branches: [main]
+    paths:
+      - CHANGELOG.md
 
 jobs:
   build:

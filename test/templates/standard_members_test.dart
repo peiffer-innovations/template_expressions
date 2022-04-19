@@ -1,9 +1,24 @@
 import 'dart:convert';
 
+import 'package:logging/logging.dart';
 import 'package:template_expressions/template_expressions.dart';
 import 'package:test/test.dart';
 
 void main() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    // ignore: avoid_print
+    print('${record.level.name}: ${record.time}: ${record.message}');
+    if (record.error != null) {
+      // ignore: avoid_print
+      print('${record.error}');
+    }
+    if (record.stackTrace != null) {
+      // ignore: avoid_print
+      print('${record.stackTrace}');
+    }
+  });
+
   group('Codex', () {
     test('base64', () {
       var template = Template(
@@ -100,6 +115,60 @@ void main() {
                 seconds: 30,
               ).inMilliseconds,
         ).toString(),
+      );
+    });
+  });
+
+  group('String', () {
+    test('decode', () {
+      var template = Template(
+        value: r'${input.decode()["last"] + ", " + input.decode()["first"]}',
+      );
+
+      expect(
+        template.process(context: {
+          'input': '{"first": "John", "last": "Smith"}',
+        }),
+        'Smith, John',
+      );
+    });
+
+    test('toLowerCase', () {
+      var template = Template(
+        value: r'${input.toLowerCase()}',
+      );
+
+      expect(
+        template.process(context: {
+          'input': 'Hello World!',
+        }),
+        'hello world!',
+      );
+    });
+
+    test('toUpperCase', () {
+      var template = Template(
+        value: r'${input.toUpperCase()}',
+      );
+
+      expect(
+        template.process(context: {
+          'input': 'Hello World!',
+        }),
+        'HELLO WORLD!',
+      );
+    });
+
+    test('trim', () {
+      var template = Template(
+        value: r'${input.trim()}',
+      );
+
+      expect(
+        template.process(context: {
+          'input': '  Hello World!  ',
+        }),
+        'Hello World!',
       );
     });
   });
