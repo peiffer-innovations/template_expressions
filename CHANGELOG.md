@@ -1,6 +1,7 @@
 ## [1.1.5] - April 18th, 2022
 
 * Added `AES` and `RSA` for encryption and description
+* Added pointycastle dependency
 
 
 ## [1.1.4] - April 16th, 2022
