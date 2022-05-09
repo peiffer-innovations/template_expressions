@@ -408,6 +408,20 @@ The following [Map](https://api.flutter.dev/flutter/dart-core/Map-class.html) me
 
 ---
 
+### MapEntry
+
+The following [MapEntry](https://api.flutter.dev/flutter/dart-core/MapEntry-class.html) members are supported.
+
+#### Member Functions
+
+| Function | Example |
+|----------|---------|
+| [key](https://api.flutter.dev/flutter/dart-core/MapEntry/key.html) | `${entry.key}` |
+| [value](https://api.flutter.dev/flutter/dart-core/MapEntry/value.html) | `${entry.value}` |
+
+
+---
+
 ### num
 
 The following [num](https://api.flutter.dev/flutter/dart-core/num-class.html) members are supported.

@@ -1,3 +1,8 @@
+## [1.1.6] - May 9th, 2022
+
+* Added `MapEntry` support.
+
+
 ## [1.1.5+1] - April 18th, 2022
 
 * Added `AES` and `RSA` for encryption and description

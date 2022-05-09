@@ -29,6 +29,8 @@ dynamic lookupStandardMembers(dynamic target, String name) {
     result = _processJsonPathMatch(target, name);
   } else if (target is Map) {
     result = _processMap(target, name);
+  } else if (target is MapEntry) {
+    result = _processMapEntry(target, name);
   } else if (target is double || target is int || target is num) {
     result = _processNum(target, name);
   } else if (target is String) {
@@ -449,6 +451,22 @@ dynamic _processMap(Map target, String name) {
 
     case 'values':
       result = target.values;
+      break;
+  }
+
+  return result;
+}
+
+dynamic _processMapEntry(MapEntry target, String name) {
+  dynamic result;
+
+  switch (name) {
+    case 'key':
+      result = target.key;
+      break;
+
+    case 'value':
+      result = target.value;
       break;
   }
 

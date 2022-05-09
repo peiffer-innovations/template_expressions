@@ -163,6 +163,24 @@ void main() {
     });
   });
 
+  group('MapEntry', () {
+    test('key / value', () {
+      var context = {
+        'input': MapEntry('KEY', 'VALUE'),
+      };
+
+      expect(
+        Template(value: r'${input.key}').process(context: context),
+        'KEY',
+      );
+
+      expect(
+        Template(value: r'${input.value}').process(context: context),
+        'VALUE',
+      );
+    });
+  });
+
   group('String', () {
     test('decode', () {
       var template = Template(
