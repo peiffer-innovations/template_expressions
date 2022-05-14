@@ -1,3 +1,8 @@
+## [1.1.6+1] - May 14th, 2022
+
+* Added `MapEntry` support.
+
+
 ## [1.1.6] - May 9th, 2022
 
 * Added `MapEntry` support.

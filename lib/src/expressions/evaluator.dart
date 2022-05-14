@@ -295,7 +295,8 @@ class ExpressionEvaluator {
         break;
 
       case '+':
-        result = left + right();
+        var r = right();
+        result = left + r;
         break;
 
       case '-':
