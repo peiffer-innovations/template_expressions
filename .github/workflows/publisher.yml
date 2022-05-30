@@ -1,10 +1,11 @@
-name: Flutter Publisher
+name: Dart Publisher
 
 on:
   push:
     branches: [main]
     paths:
-      - CHANGELOG.md
+      - .github/workflows/publisher.yml
+      - pubspec.yaml
 
 jobs:
   build:
