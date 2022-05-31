@@ -1,3 +1,8 @@
+## [1.1.6+2] - May, 31, 2022
+
+* Automated dependency updates
+
+
 ## [1.1.6+1] - May 14th, 2022
 
 * Added `MapEntry` support.
@@ -51,3 +56,4 @@
 ## [1.0.0] - February 26th, 2022
 
 * Initial Release
+
