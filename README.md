@@ -1,3 +1,5 @@
+# template_expressions
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
@@ -57,35 +59,6 @@
       - [Member Functions](#member-functions-13)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# template_expressions
-
-
-## Table of Contents
-
-* [Introduction](#introduction)
-* [Using the Library](#using-the-library)
-* [Template Expression Syntax](#template-expression-syntax)
-    * [HashExpressionSyntax](#hashexpressionsyntax)
-    * [MustacheExpressionSyntax](#mustacheexpressionsyntax)
-    * [PipeExpressionSyntax](#pipeexpressionsyntax)
-    * [StandardExpressionSyntax](#standardexpressionsyntax)
-* [Built in Objects and Members](#built-in-objects-and-members)
-    * [Codex](#codex)
-    * [Crypto](#crypto)
-    * [DateFormat](#dateformat)
-    * [DateTime](#datetime)
-    * [Duration](#duration)
-    * [Encrypt](#encrypt)
-    * [Iterable](#iterable)
-        * [List](#list)
-    * [JsonPath](#jsonpath)
-    * [JsonPathMatch](#jsonpathmatch)
-    * [Map](#map)
-    * [num](#num)
-    * [random](#random)
-    * [String](#string)
-    * [Object](#object)
 
 ## Introduction
 
@@ -178,11 +151,13 @@ The [Codex](https://pub.dev/documentation/template_expressions/latest/template_e
 
 ```dart
 base64.encode(value)
+base64url.encode(value)
 hex.encode(value)
 json.encode(value)
 utf8.encode(value)
 
 base64.decode(value)
+base64url.decode(value)
 hex.decode(value)
 json.decode(value)
 utf8.decode(value)

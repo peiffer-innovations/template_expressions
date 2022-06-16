@@ -37,10 +37,10 @@ class ExpressionParser {
       });
 
   Parser<String> get escapedChar =>
-      (char(r'\') & anyOf("nrtbfv\"'")).pick(1).cast();
+      (char(r'\') & anyOf("nrtbfv\"'\\")).pick(1).cast();
 
   String unescape(String v) => v.replaceAllMapped(
-      RegExp("\\\\[nrtbf\"']"),
+      RegExp("\\\\[nrtbf\"'\\\\]"),
       (v) => const {
             'n': '\n',
             'r': '\r',
@@ -49,7 +49,8 @@ class ExpressionParser {
             'f': '\f',
             'v': '\v',
             "'": "'",
-            '"': '"'
+            '"': '"',
+            '\\': '\\',
           }[v.group(0)!.substring(1)]!);
 
   Parser<Literal> get sqStringLiteral => (char("'") &

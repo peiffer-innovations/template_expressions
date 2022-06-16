@@ -10,6 +10,10 @@ class CodexFunctions {
       decoder: (value) => base64.decode(value),
       encoder: (value) => base64.encode(value),
     ),
+    'base64url': Codex(
+      decoder: (value) => Base64Codec.urlSafe().decode(value),
+      encoder: (value) => Base64Codec.urlSafe().encode(value),
+    ),
     'json': Codex(
         decoder: (value) => json.decode(value),
         encoder: (value) => json.encode(value)),

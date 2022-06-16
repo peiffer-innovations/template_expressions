@@ -243,6 +243,10 @@ dynamic _processIntList(List<int> bytes, String name) {
       result = () => base64.encode(bytes);
       break;
 
+    case 'toBase64Url':
+      result = () => Base64Codec.urlSafe().encode(bytes);
+      break;
+
     case 'toHex':
       result = () => hex.encode(bytes);
       break;

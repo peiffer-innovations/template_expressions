@@ -21,21 +21,52 @@ void main() {
 
   group('Codex', () {
     test('base64', () {
+      var input =
+          r'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=`~!@#$%^&*()_+[]{},./<>?;:"\|';
       var template = Template(
         value: r'${utf8.decode(base64.decode(input))}',
       );
 
       expect(
-        template.process(context: {'input': 'SGVsbG8gV29ybGQh'}),
-        'Hello World!',
+        template.process(context: {
+          'input':
+              'YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWjEyMzQ1Njc4OTAtPWB+IUAjJCVeJiooKV8rW117fSwuLzw+Pzs6Ilx8'
+        }),
+        input,
       );
 
       template = Template(
         value: r'${base64.encode(input)}',
       );
       expect(
-        template.process(context: {'input': utf8.encode('Hello World!')}),
-        'SGVsbG8gV29ybGQh',
+        template.process(context: {'input': utf8.encode(input)}),
+        'YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWjEyMzQ1Njc4OTAtPWB+IUAjJCVeJiooKV8rW117fSwuLzw+Pzs6Ilx8',
+      );
+    });
+
+    test('base64url', () {
+      var input =
+          r'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=`~!@#$%^&*()_+[]{},./<>?;:"\|';
+      var template = Template(
+        value: r'${utf8.decode(base64url.decode(input))}',
+      );
+
+      expect(
+        template.process(
+          context: {
+            'input':
+                'YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWjEyMzQ1Njc4OTAtPWB-IUAjJCVeJiooKV8rW117fSwuLzw-Pzs6Ilx8'
+          },
+        ),
+        input,
+      );
+
+      template = Template(
+        value: r'${base64url.encode(input)}',
+      );
+      expect(
+        template.process(context: {'input': utf8.encode(input)}),
+        'YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWjEyMzQ1Njc4OTAtPWB-IUAjJCVeJiooKV8rW117fSwuLzw-Pzs6Ilx8',
       );
     });
 
@@ -192,6 +223,19 @@ void main() {
           'input': '{"first": "John", "last": "Smith"}',
         }),
         'Smith, John',
+      );
+    });
+
+    test('replaceAll', () {
+      var template = Template(value: r'${input.replaceAll("\n", "\\n")}');
+
+      expect(
+        template.process(
+          context: {
+            'input': 'a\nb\nc\n',
+          },
+        ),
+        'a\\nb\\nc\\n',
       );
     });
 

@@ -1,16 +1,15 @@
+## [1.1.7] - June 16th, 2022
+
+* Fix for escapeing backslash (`\\`)
+* Added `base64url` to `Codec` and `.toBase64Url()` to `List<int>`
+
+
 ## [1.1.6+2] - May, 31, 2022
 
 * Automated dependency updates
 
 
 ## [1.1.6+1] - May 14th, 2022
-
-* Added `MapEntry` support.
-
-
-## [1.1.6] - May 9th, 2022
-
-* Added `MapEntry` support.
 
 
 ## [1.1.5+1] - April 18th, 2022
