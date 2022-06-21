@@ -1,3 +1,8 @@
+## [1.1.7+1] - June 21, 2022
+
+* Automated dependency updates
+
+
 ## [1.1.7] - June 16th, 2022
 
 * Fix for escapeing backslash (`\\`)
@@ -55,4 +60,5 @@
 ## [1.0.0] - February 26th, 2022
 
 * Initial Release
+
 
