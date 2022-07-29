@@ -83,7 +83,7 @@ String _encodePrivateKeyToPemPKCS1(RSAPrivateKey privateKey) {
 
   var dataBase64 = _wrap(base64.encode(topLevel.encode()));
 
-  return '-----BEGIN RSA PRIVATE KEY-----\r\n$dataBase64\r\n-----END PRIVATE KEY-----';
+  return '-----BEGIN RSA PRIVATE KEY-----\r\n$dataBase64\r\n-----END RSA PRIVATE KEY-----';
 }
 
 /// Encode Public key to PEM Format
@@ -99,7 +99,7 @@ String _encodePublicKeyToPemPKCS1(RSAPublicKey publicKey) {
 
   var dataBase64 = _wrap(base64.encode(bytes));
   var pemString =
-      '-----BEGIN RSA PUBLIC KEY-----\r\n$dataBase64\r\n-----END PUBLIC KEY-----';
+      '-----BEGIN RSA PUBLIC KEY-----\r\n$dataBase64\r\n-----END RSA PUBLIC KEY-----';
   return pemString;
 }
 

@@ -1,3 +1,8 @@
+## [1.1.7+6] - July 28th, 2022
+
+* Revert crypto
+
+
 ## [1.1.7+5] - July 26, 2022
 
 * Automated dependency updates
