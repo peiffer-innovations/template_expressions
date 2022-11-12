@@ -1,3 +1,13 @@
+## [2.0.0] - November 12th, 2022
+
+* Updated to require petitparser 5+
+
+
+## [1.1.7+11] - November 8, 2022
+
+* Automated dependency updates
+
+
 ## [1.1.7+10] - October 18, 2022
 
 * Automated dependency updates
@@ -105,6 +115,7 @@
 ## [1.0.0] - February 26th, 2022
 
 * Initial Release
+
 
 
 
