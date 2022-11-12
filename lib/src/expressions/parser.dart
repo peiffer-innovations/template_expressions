@@ -1,6 +1,8 @@
 library expressions.parser;
 
+import 'package:meta/meta.dart';
 import 'package:petitparser/petitparser.dart';
+
 import 'expressions.dart';
 
 class ExpressionParser {
@@ -140,7 +142,7 @@ class ExpressionParser {
       .trim();
 
   Parser<Expression> get binaryExpression =>
-      token.separatedBy(binaryOperation).map((l) {
+      token.plusSeparated(binaryOperation).withSeparators().map((l) {
         var first = l[0];
         var stack = <dynamic>[first];
 
@@ -190,15 +192,15 @@ class ExpressionParser {
   // until the terminator character `)` or `]` is encountered.
   // e.g. `foo(bar, baz)`, `my_func()`, or `[bar, baz]`
   Parser<List<Expression>> get arguments => expression
-      .separatedBy(char(',').trim(), includeSeparators: false)
-      .castList<Expression>()
+      .plusSeparated(char(',').trim())
+      .expressionList<Expression>()
       .optionalWith([]);
 
   Parser<Map<Expression, Expression>> get mapArguments =>
       (expression & char(':').trim() & expression)
           .map((l) => MapEntry<Expression, Expression>(l[0], l[2]))
-          .separatedBy(char(',').trim(), includeSeparators: false)
-          .castList<MapEntry<Expression, Expression>>()
+          .plusSeparated(char(',').trim())
+          .expressionList<MapEntry<Expression, Expression>>()
           .map((l) => Map.fromEntries(l))
           .optionalWith({});
 
@@ -256,4 +258,56 @@ class ExpressionParser {
           .castList();
 
   final SettableParser<Expression> expression = undefined();
+}
+
+extension SeparatedListParserExtension<T> on Parser<T> {
+  @useResult
+  Parser<List<R>> expressionList<R>() => SeparatedListParser(this);
+
+  @useResult
+  Parser<List<R>> withSeparators<R>() => WithSeparatorListParser(this);
+}
+
+class SeparatedListParser<T, R> extends DelegateParser<T, List<R>> {
+  SeparatedListParser(super.delegate);
+
+  @override
+  Result<List<R>> parseOn(Context context) {
+    final result = delegate.parseOn(context);
+    if (result.isSuccess) {
+      return result.success((result.value as SeparatedList).elements.cast<R>());
+    } else {
+      return result.failure(result.message);
+    }
+  }
+
+  @override
+  int fastParseOn(String buffer, int position) =>
+      delegate.fastParseOn(buffer, position);
+
+  @override
+  SeparatedListParser<T, R> copy() => SeparatedListParser<T, R>(delegate);
+}
+
+class WithSeparatorListParser<T, R> extends DelegateParser<T, List<R>> {
+  WithSeparatorListParser(super.delegate);
+
+  @override
+  Result<List<R>> parseOn(Context context) {
+    final result = delegate.parseOn(context);
+    if (result.isSuccess) {
+      return result.success(
+          (result.value as SeparatedList).sequential.toList().cast<R>());
+    } else {
+      return result.failure(result.message);
+    }
+  }
+
+  @override
+  int fastParseOn(String buffer, int position) =>
+      delegate.fastParseOn(buffer, position);
+
+  @override
+  WithSeparatorListParser<T, R> copy() =>
+      WithSeparatorListParser<T, R>(delegate);
 }
