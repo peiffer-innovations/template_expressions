@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:convert/convert.dart';
 import 'package:template_expressions/src/types/codex.dart';
 
@@ -11,8 +12,8 @@ class CodexFunctions {
       encoder: (value) => base64.encode(value),
     ),
     'base64url': Codex(
-      decoder: (value) => Base64Codec.urlSafe().decode(value),
-      encoder: (value) => Base64Codec.urlSafe().encode(value),
+      decoder: (value) => const Base64Codec.urlSafe().decode(value),
+      encoder: (value) => const Base64Codec.urlSafe().encode(value),
     ),
     'json': Codex(
         decoder: (value) => json.decode(value),

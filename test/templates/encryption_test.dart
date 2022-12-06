@@ -26,14 +26,14 @@ void main() {
 
   group('aes', () {
     test('encrypt / decrypt', () {
-      var key = SecureRandom(256 ~/ 8);
+      final key = SecureRandom(256 ~/ 8);
 
-      var context = {
+      final context = {
         'data': 'Hello World!',
         'key': key,
       };
 
-      var encrypted = Template(
+      final encrypted = Template(
         value: r'${AES().key(key).encrypt(data)}',
       ).process(
         context: context,
@@ -41,7 +41,7 @@ void main() {
 
       expect(encrypted != context['data'], true);
 
-      var decrypted = Template(
+      final decrypted = Template(
         value: '\${AES().key(key).decrypt("$encrypted").toString()}',
       ).process(context: context);
 
@@ -49,24 +49,24 @@ void main() {
     });
 
     test('encrypt / decrypt: string key', () {
-      var context = {
+      final context = {
         'data': 'Hello World!',
         'iv': _kIV,
         'key': _kAesKey,
       };
 
-      var encrypted = Template(
+      final encrypted = Template(
         value: r'${AES().key(key).iv(iv).encrypt(data)}',
       ).process(
         context: context,
       );
 
-      var parts = encrypted.split(':');
+      final parts = encrypted.split(':');
 
       expect(parts[0], _kIV);
       expect(encrypted, 'UPiAY93c6VgQyiTc8mXzzg==:QpuT2peJ+VKBcWSLi06q4A==');
 
-      var decrypted = Template(
+      final decrypted = Template(
         value: r'${AES().key(key).iv(iv).decrypt(encrypted).toString()}',
       ).process(context: {
         ...context,
@@ -79,19 +79,19 @@ void main() {
 
   group('rsa', () {
     test('encrypt / decrypt: string', () {
-      var rsapars = pc.RSAKeyGeneratorParameters(BigInt.from(65537), 4096, 5);
-      var params = pc.ParametersWithRandom(rsapars, _getRsaSecureRandom());
-      var keyGenerator = RSAKeyGenerator();
+      final rsapars = pc.RSAKeyGeneratorParameters(BigInt.from(65537), 4096, 5);
+      final params = pc.ParametersWithRandom(rsapars, _getRsaSecureRandom());
+      final keyGenerator = RSAKeyGenerator();
       keyGenerator.init(params);
-      var keyPair = keyGenerator.generateKeyPair();
+      final keyPair = keyGenerator.generateKeyPair();
 
-      var context = {
+      final context = {
         'data': 'Hello World!',
         'privateKey': keyPair.privateKey,
         'publicKey': keyPair.publicKey,
       };
 
-      var encrypted = Template(
+      final encrypted = Template(
         value: r'${RSA().publicKey(publicKey).encrypt(data)}',
       ).process(
         context: context,
@@ -99,7 +99,7 @@ void main() {
 
       expect(encrypted != context['data'], true);
 
-      var decrypted = Template(
+      final decrypted = Template(
         value: r'${RSA().privateKey(privateKey).decrypt(encrypted).toString()}',
       ).process(context: {
         ...context,
@@ -110,7 +110,7 @@ void main() {
     });
 
     test('encrypt / decrypt: PEM', () {
-      var context = {
+      final context = {
         'data': 'Hello PEM World!',
         'iv': _kIV,
         'key': _kAesKey,
@@ -118,16 +118,16 @@ void main() {
         'publicKey': _kRsaPublicKey,
       };
 
-      var encrypted = Template(
+      final encrypted = Template(
         value:
             r'${RSA().aes(AES().key(key).iv(iv)).publicKey(publicKey).encrypt(data)}',
       ).process(
         context: context,
       );
 
-      var parts = encrypted.split(':');
+      final parts = encrypted.split(':');
 
-      var aesEncrypted = '${parts[1]}:${parts[2]}';
+      final aesEncrypted = '${parts[1]}:${parts[2]}';
       expect(
         parts[1],
         _kIV,
@@ -137,7 +137,7 @@ void main() {
         'UPiAY93c6VgQyiTc8mXzzg==:TRSTeVKIA0WWMFHVHmbDQoR9dDt7jyF4SauqcMK8e6c=',
       );
 
-      var decrypted = Template(
+      final decrypted = Template(
         value:
             r'${RSA().aes(AES().key(key).iv(iv)).privateKey(privateKey).decrypt(encrypted).toString()}',
       ).process(context: {
@@ -149,13 +149,13 @@ void main() {
     });
 
     test('sign / verify: PEM', () {
-      var context = {
+      final context = {
         'data': 'Hello PEM World!',
         'privateKey': _kRsaPrivateKey,
         'publicKey': _kRsaPublicKey,
       };
 
-      var signature = Template(
+      final signature = Template(
         value: r'${RSA().privateKey(privateKey).sign(data).toBase64()}',
       ).process(
         context: context,
@@ -189,9 +189,9 @@ void main() {
 }
 
 pc.SecureRandom _getRsaSecureRandom() {
-  var secureRandom = FortunaRandom();
-  var random = math.Random.secure();
-  var seeds = <int>[];
+  final secureRandom = FortunaRandom();
+  final random = math.Random.secure();
+  final seeds = <int>[];
   for (var i = 0; i < 32; i++) {
     seeds.add(random.nextInt(255));
   }

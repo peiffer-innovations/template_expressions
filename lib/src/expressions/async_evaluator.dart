@@ -33,8 +33,8 @@ class AsyncExpressionEvaluator extends ExpressionEvaluator {
   @override
   Stream evalBinaryExpression(
       BinaryExpression expression, Map<String, dynamic> context) {
-    var left = eval(expression.left, context);
-    var right = eval(expression.right, context);
+    final left = eval(expression.left, context);
+    final right = eval(expression.right, context);
 
     return CombineLatestStream.combine2(left, right, (a, b) {
       return baseEvaluator.evalBinaryExpression(
@@ -46,7 +46,7 @@ class AsyncExpressionEvaluator extends ExpressionEvaluator {
   @override
   Stream evalUnaryExpression(
       UnaryExpression expression, Map<String, dynamic> context) {
-    var argument = eval(expression.argument, context);
+    final argument = eval(expression.argument, context);
 
     return argument.map((v) {
       return baseEvaluator.evalUnaryExpression(
@@ -59,8 +59,9 @@ class AsyncExpressionEvaluator extends ExpressionEvaluator {
   @override
   dynamic evalCallExpression(
       CallExpression expression, Map<String, dynamic> context) {
-    var callee = eval(expression.callee, context);
-    var arguments = expression.arguments.map((e) => eval(e, context)).toList();
+    final callee = eval(expression.callee, context);
+    final arguments =
+        expression.arguments.map((e) => eval(e, context)).toList();
     return CombineLatestStream([callee, ...arguments], (l) {
       return baseEvaluator.evalCallExpression(
           CallExpression(
@@ -72,9 +73,9 @@ class AsyncExpressionEvaluator extends ExpressionEvaluator {
   @override
   Stream evalConditionalExpression(
       ConditionalExpression expression, Map<String, dynamic> context) {
-    var test = eval(expression.test, context);
-    var cons = eval(expression.consequent, context);
-    var alt = eval(expression.alternate, context);
+    final test = eval(expression.test, context);
+    final cons = eval(expression.consequent, context);
+    final alt = eval(expression.alternate, context);
 
     return CombineLatestStream.combine3(test, cons, alt, (test, cons, alt) {
       return baseEvaluator.evalConditionalExpression(
@@ -90,8 +91,8 @@ class AsyncExpressionEvaluator extends ExpressionEvaluator {
     Map<String, dynamic> context, {
     bool nullable = false,
   }) {
-    var obj = eval(expression.object, context);
-    var index = eval(expression.index, context);
+    final obj = eval(expression.object, context);
+    final index = eval(expression.index, context);
     return CombineLatestStream.combine2(obj, index, (obj, index) {
       return baseEvaluator.evalIndexExpression(
           IndexExpression(_asLiteral(obj), _asLiteral(index)), context);
@@ -119,7 +120,7 @@ class AsyncExpressionEvaluator extends ExpressionEvaluator {
     Map<String, dynamic> context, {
     bool nullable = false,
   }) {
-    var v = eval(expression.object, context);
+    final v = eval(expression.object, context);
 
     return v.switchMap((v) {
       return _asStream(getMember(v, expression.property.name));

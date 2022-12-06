@@ -86,7 +86,7 @@ class ExpressionEvaluator {
   ) {
     _logger.finest('[eval]: evaluating.... [${expression.toTokenString()}]');
     dynamic result;
-    var ctx = Map<String, dynamic>.from(context);
+    final ctx = Map<String, dynamic>.from(context);
     _delegate.forEach((key, value) => ctx.putIfAbsent(key, () => value));
 
     if (expression is Literal) {
@@ -127,7 +127,7 @@ class ExpressionEvaluator {
     Literal literal,
     Map<String, dynamic> context,
   ) {
-    var value = literal.value;
+    final value = literal.value;
     dynamic result = value;
 
     if (value is List) {
@@ -161,7 +161,7 @@ class ExpressionEvaluator {
     Map<String, dynamic> context, {
     bool nullable = false,
   }) {
-    var obj = eval(expression.object, context);
+    final obj = eval(expression.object, context);
 
     _logger.finest('[evalMemberExpression]: [${expression.property.name}]');
     return getMember(obj, expression.property.name, nullable: nullable);
@@ -173,7 +173,7 @@ class ExpressionEvaluator {
     Map<String, dynamic> context, {
     bool nullable = false,
   }) {
-    var indexed = eval(expression.object, context);
+    final indexed = eval(expression.object, context);
 
     return indexed == null && nullable
         ? null
@@ -185,8 +185,9 @@ class ExpressionEvaluator {
     CallExpression expression,
     Map<String, dynamic> context,
   ) {
-    var callee = eval(expression.callee, context);
-    var arguments = expression.arguments.map((e) => eval(e, context)).toList();
+    final callee = eval(expression.callee, context);
+    final arguments =
+        expression.arguments.map((e) => eval(e, context)).toList();
 
     _logger.finest('[evalCallExpression]: [${expression.callee}]');
 
@@ -207,7 +208,7 @@ class ExpressionEvaluator {
     UnaryExpression expression,
     Map<String, dynamic> context,
   ) {
-    var argument = eval(expression.argument, context);
+    final argument = eval(expression.argument, context);
     dynamic result;
     switch (expression.operator) {
       case '-':
@@ -239,8 +240,8 @@ class ExpressionEvaluator {
     Map<String, dynamic> context,
   ) {
     dynamic result;
-    var left = eval(expression.left, context);
-    var right = () => eval(expression.right, context);
+    final left = eval(expression.left, context);
+    final right = () => eval(expression.right, context);
     switch (expression.operator) {
       case '||':
         result = left || right();
@@ -295,7 +296,7 @@ class ExpressionEvaluator {
         break;
 
       case '+':
-        var r = right();
+        final r = right();
         result = left + r;
         break;
 
@@ -333,7 +334,7 @@ class ExpressionEvaluator {
     ConditionalExpression expression,
     Map<String, dynamic> context,
   ) {
-    var test = eval(expression.test, context);
+    final test = eval(expression.test, context);
     return test
         ? eval(expression.consequent, context)
         : eval(expression.alternate, context);

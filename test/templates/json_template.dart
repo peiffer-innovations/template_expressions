@@ -4,7 +4,7 @@ import 'package:template_expressions/template_expressions.dart';
 import 'package:test/test.dart';
 
 void main() {
-  var context = {
+  final context = {
     'person': {
       'firstName': 'John',
       'lastName': 'Smith',
@@ -12,9 +12,9 @@ void main() {
   };
 
   test('json template', () {
-    var template = Template(value: _kTemplate);
+    final template = Template(value: _kTemplate);
 
-    var result = template.process(context: context);
+    final result = template.process(context: context);
 
     expect(
       json.decode(result),

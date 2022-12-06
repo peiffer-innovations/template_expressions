@@ -7,7 +7,7 @@ class JsonPathFunctions {
     'JsonPath': (value) => JsonPath(value),
     'json_path': (value, expression) {
       dynamic result;
-      var values = JsonPath(expression).read(value);
+      final values = JsonPath(expression).read(value);
 
       if (values.isNotEmpty) {
         result = values.first.value;

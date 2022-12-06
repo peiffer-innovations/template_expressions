@@ -3,6 +3,7 @@ library expressions.core;
 import 'package:meta/meta.dart';
 import 'package:petitparser/petitparser.dart';
 import 'package:quiver/core.dart';
+
 import 'parser.dart';
 
 class Identifier {
@@ -165,11 +166,11 @@ class BinaryExpression extends CompoundExpression {
 
   @override
   String toString() {
-    var l = (left is BinaryExpression &&
+    final l = (left is BinaryExpression &&
             (left as BinaryExpression).precedence < precedence)
         ? '($left)'
         : '$left';
-    var r = (right is BinaryExpression &&
+    final r = (right is BinaryExpression &&
             (right as BinaryExpression).precedence < precedence)
         ? '($right)'
         : '$right';

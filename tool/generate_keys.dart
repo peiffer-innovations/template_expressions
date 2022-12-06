@@ -12,37 +12,37 @@ import 'package:pointycastle/pointycastle.dart';
 import 'package:pointycastle/random/fortuna_random.dart';
 
 Future<void> main(List<String> args) async {
-  var keys = _getRsaKeyPair();
+  final keys = _getRsaKeyPair();
 
-  var outpath = args.isEmpty ? 'output' : args[0];
+  final outpath = args.isEmpty ? 'output' : args[0];
 
-  var output = Directory(outpath);
+  final output = Directory(outpath);
   if (output.existsSync()) {
     output.deleteSync(recursive: true);
   }
 
-  var publicKey = _encodePublicKeyToPemPKCS1(
+  final publicKey = _encodePublicKeyToPemPKCS1(
     keys.publicKey as RSAPublicKey,
   );
-  var privateKey = _encodePrivateKeyToPemPKCS1(
+  final privateKey = _encodePrivateKeyToPemPKCS1(
     keys.privateKey as RSAPrivateKey,
   );
 
-  var pubKeyFile = File('${output.path}/publicKey.pem');
+  final pubKeyFile = File('${output.path}/publicKey.pem');
   pubKeyFile.createSync(recursive: true);
   pubKeyFile.writeAsStringSync(publicKey);
 
-  var pvtKeyFile = File('${output.path}/privateKey.pem');
+  final pvtKeyFile = File('${output.path}/privateKey.pem');
   pvtKeyFile.createSync(recursive: true);
   pvtKeyFile.writeAsStringSync(privateKey);
 
-  var aesKey = encrypt.SecureRandom(256 ~/ 8);
-  var aesKeyFile = File('${output.path}/aesKey.txt');
+  final aesKey = encrypt.SecureRandom(256 ~/ 8);
+  final aesKeyFile = File('${output.path}/aesKey.txt');
   aesKeyFile.createSync(recursive: true);
   aesKeyFile.writeAsStringSync(aesKey.base64);
 
-  var iv = encrypt.IV.fromSecureRandom(16);
-  var ivFile = File('${output.path}/iv.txt');
+  final iv = encrypt.IV.fromSecureRandom(16);
+  final ivFile = File('${output.path}/iv.txt');
   ivFile.createSync(recursive: true);
   ivFile.writeAsStringSync(iv.base64);
 
@@ -55,21 +55,21 @@ Future<void> main(List<String> args) async {
 ///
 /// source: https://github.com/Vanethos/flutter_rsa_generator_example/blob/master/lib/utils/rsa_key_helper.dart
 String _encodePrivateKeyToPemPKCS1(RSAPrivateKey privateKey) {
-  var dP = privateKey.privateExponent! % (privateKey.p! - BigInt.from(1));
-  var dQ = privateKey.privateExponent! % (privateKey.q! - BigInt.from(1));
-  var iQ = privateKey.q!.modInverse(privateKey.p!);
+  final dP = privateKey.privateExponent! % (privateKey.p! - BigInt.from(1));
+  final dQ = privateKey.privateExponent! % (privateKey.q! - BigInt.from(1));
+  final iQ = privateKey.q!.modInverse(privateKey.p!);
 
-  var topLevel = ASN1Sequence();
+  final topLevel = ASN1Sequence();
 
-  var version = ASN1Integer(BigInt.from(0));
-  var modulus = ASN1Integer(privateKey.n);
-  var publicExponent = ASN1Integer(privateKey.exponent);
-  var privateExponent = ASN1Integer(privateKey.privateExponent);
-  var p = ASN1Integer(privateKey.p);
-  var q = ASN1Integer(privateKey.q);
-  var exp1 = ASN1Integer(dP);
-  var exp2 = ASN1Integer(dQ);
-  var co = ASN1Integer(iQ);
+  final version = ASN1Integer(BigInt.from(0));
+  final modulus = ASN1Integer(privateKey.n);
+  final publicExponent = ASN1Integer(privateKey.exponent);
+  final privateExponent = ASN1Integer(privateKey.privateExponent);
+  final p = ASN1Integer(privateKey.p);
+  final q = ASN1Integer(privateKey.q);
+  final exp1 = ASN1Integer(dP);
+  final exp2 = ASN1Integer(dQ);
+  final co = ASN1Integer(iQ);
 
   topLevel.add(version);
   topLevel.add(modulus);
@@ -81,7 +81,7 @@ String _encodePrivateKeyToPemPKCS1(RSAPrivateKey privateKey) {
   topLevel.add(exp2);
   topLevel.add(co);
 
-  var dataBase64 = _wrap(base64.encode(topLevel.encode()));
+  final dataBase64 = _wrap(base64.encode(topLevel.encode()));
 
   return '-----BEGIN RSA PRIVATE KEY-----\r\n$dataBase64\r\n-----END RSA PRIVATE KEY-----';
 }
@@ -90,15 +90,15 @@ String _encodePrivateKeyToPemPKCS1(RSAPrivateKey privateKey) {
 ///
 /// Given [RSAPublicKey] returns a base64 encoded [String] with standard PEM headers and footers
 String _encodePublicKeyToPemPKCS1(RSAPublicKey publicKey) {
-  var topLevel = ASN1Sequence();
+  final topLevel = ASN1Sequence();
 
   topLevel.add(ASN1Integer(publicKey.modulus));
   topLevel.add(ASN1Integer(publicKey.exponent));
 
-  var bytes = topLevel.encode();
+  final bytes = topLevel.encode();
 
-  var dataBase64 = _wrap(base64.encode(bytes));
-  var pemString =
+  final dataBase64 = _wrap(base64.encode(bytes));
+  final pemString =
       '-----BEGIN RSA PUBLIC KEY-----\r\n$dataBase64\r\n-----END RSA PUBLIC KEY-----';
   return pemString;
 }
@@ -107,9 +107,9 @@ String _encodePublicKeyToPemPKCS1(RSAPublicKey publicKey) {
 ///
 /// Returns [FortunaRandom] to be used in the [AsymmetricKeyPair] generation
 SecureRandom _getSecureRandom() {
-  var secureRandom = FortunaRandom();
-  var random = Random.secure();
-  var seeds = <int>[];
+  final secureRandom = FortunaRandom();
+  final random = Random.secure();
+  final seeds = <int>[];
   for (var i = 0; i < 32; i++) {
     seeds.add(random.nextInt(255));
   }
@@ -122,19 +122,19 @@ SecureRandom _getSecureRandom() {
 /// Returns a [AsymmetricKeyPair] based on the [RSAKeyGenerator] with custom parameters,
 /// including a [SecureRandom]
 AsymmetricKeyPair<PublicKey, PrivateKey> _getRsaKeyPair() {
-  var rsapars = RSAKeyGeneratorParameters(BigInt.from(65537), 2048, 5);
-  var params = ParametersWithRandom(rsapars, _getSecureRandom());
-  var keyGenerator = RSAKeyGenerator();
+  final rsapars = RSAKeyGeneratorParameters(BigInt.from(65537), 2048, 5);
+  final params = ParametersWithRandom(rsapars, _getSecureRandom());
+  final keyGenerator = RSAKeyGenerator();
   keyGenerator.init(params);
   return keyGenerator.generateKeyPair();
 }
 
 String _wrap(String str, [int length = 72]) {
-  var result = StringBuffer();
+  final result = StringBuffer();
 
   var i = 0;
   while (i < str.length) {
-    var line = str.substring(i, min(i + length, str.length));
+    final line = str.substring(i, min(i + length, str.length));
     result.write('$line\n');
 
     i += length;

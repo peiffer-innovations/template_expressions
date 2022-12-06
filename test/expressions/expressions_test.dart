@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('parse', () {
-    var parser = ExpressionParser();
+    final parser = ExpressionParser();
 
     test('identifier', () {
       for (var v in ['foo', '_value', r'$x1']) {
@@ -21,7 +21,7 @@ void main() {
 
     test('numeric literal', () {
       for (var v in ['134', '.5', '43.2', '1e3', '1E-3', '1e+0', '0x01']) {
-        var w = parser.numericLiteral.end().parse(v);
+        final w = parser.numericLiteral.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, num.parse(v));
         expect(w.value.raw, v);
@@ -45,7 +45,7 @@ void main() {
         '"qfqsd\'qsfd"',
         '"qsdf\\tqs\\"qsdf"',
       ]) {
-        var w = parser.stringLiteral.end().parse(v);
+        final w = parser.stringLiteral.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, parser.unescape(v.substring(1, v.length - 1)));
         expect(w.value.raw, v);
@@ -60,7 +60,7 @@ void main() {
     });
     test('bool literal', () {
       for (var v in <String>['true', 'false']) {
-        var w = parser.boolLiteral.end().parse(v);
+        final w = parser.boolLiteral.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, v == 'true');
         expect(w.value.raw, v);
@@ -73,7 +73,7 @@ void main() {
 
     test('null literal', () {
       for (var v in <String>['null']) {
-        var w = parser.nullLiteral.end().parse(v);
+        final w = parser.nullLiteral.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, isNull);
         expect(w.value.raw, v);
@@ -86,7 +86,7 @@ void main() {
 
     test('this literal', () {
       for (var v in <String>['this']) {
-        var w = parser.thisExpression.end().parse(v);
+        final w = parser.thisExpression.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value, isA<ThisExpression>());
       }
@@ -100,8 +100,8 @@ void main() {
         },
         '{}': {}
       }.entries) {
-        var v = e.key;
-        var w = parser.mapLiteral.end().parse(v);
+        final v = e.key;
+        final w = parser.mapLiteral.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, e.value);
         expect(w.value.raw, v);
@@ -113,8 +113,8 @@ void main() {
         '[1, 2, 3]': [Literal(1), Literal(2), Literal(3)],
         '[]': []
       }.entries) {
-        var v = e.key;
-        var w = parser.arrayLiteral.end().parse(v);
+        final v = e.key;
+        final w = parser.arrayLiteral.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, e.value);
         expect(w.value.raw, v);
@@ -139,7 +139,7 @@ void main() {
         '"abc"',
         '(a%2)'
       ]) {
-        var w = parser.token.end().parse(v);
+        final w = parser.token.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.toTokenString(), v);
       }
@@ -153,7 +153,7 @@ void main() {
         '-1+2',
         '1+4-5%2*5<4==(2+1)*1<=2&&2||2'
       ]) {
-        var w = parser.binaryExpression.end().parse(v);
+        final w = parser.binaryExpression.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.toString(), v);
       }
@@ -161,7 +161,7 @@ void main() {
 
     test('unary expression', () {
       for (var v in <String>['+1', '-a', '!true', '~0x01']) {
-        var w = parser.unaryExpression.end().parse(v);
+        final w = parser.unaryExpression.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.toString(), v);
       }
@@ -169,7 +169,7 @@ void main() {
 
     test('conditional expression', () {
       for (var v in <String>["1<2 ? 'always' : 'never'"]) {
-        var w = parser.expression.end().parse(v);
+        final w = parser.expression.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.toString(), v);
       }
@@ -177,11 +177,11 @@ void main() {
   });
 
   group('evaluation', () {
-    var evaluator = const ExpressionEvaluator();
+    final evaluator = const ExpressionEvaluator();
 
     test('math and logical expressions', () {
-      var context = {'x': 3, 'y': 4, 'z': 5};
-      var expressions = {
+      final context = {'x': 3, 'y': 4, 'z': 5};
+      final expressions = {
         '1+2': 3,
         '-1+2': 1,
         '1+4-5%2*3': 2,
@@ -194,7 +194,7 @@ void main() {
     });
 
     test('index expressions', () {
-      var context = {
+      final context = {
         'l': [1, 2, 3],
         'm': {
           'x': 3,
@@ -203,7 +203,7 @@ void main() {
           's': [null]
         }
       };
-      var expressions = {'l[1]': 2, "m['z']": 5, 'm["s"][0]': null};
+      final expressions = {'l[1]': 2, "m['z']": 5, 'm["s"][0]': null};
 
       expressions.forEach((e, r) {
         expect(evaluator.eval(Expression.parse(e), context), r);
@@ -211,14 +211,14 @@ void main() {
     });
 
     test('call expressions', () {
-      var context = {
+      final context = {
         'x': 3,
         'y': 4,
         'z': 5,
         'sqrt': sqrt,
         'sayHi': () => 'hi',
       };
-      var expressions = {'sqrt(x*x+y*y)': 5, 'sayHi()': 'hi'};
+      final expressions = {'sqrt(x*x+y*y)': 5, 'sayHi()': 'hi'};
 
       expressions.forEach((e, r) {
         expect(evaluator.eval(Expression.parse(e), context), r);
@@ -226,8 +226,8 @@ void main() {
     });
 
     test('conditional expressions', () {
-      var context = {'this': [], 'other': {}};
-      var expressions = {"this==other ? 'same' : 'different'": 'different'};
+      final context = {'this': [], 'other': {}};
+      final expressions = {"this==other ? 'same' : 'different'": 'different'};
 
       expressions.forEach((e, r) {
         expect(evaluator.eval(Expression.parse(e), context), r);
@@ -235,8 +235,8 @@ void main() {
     });
 
     test('array expression', () {
-      var context = <String, dynamic>{};
-      var expressions = {
+      final context = <String, dynamic>{};
+      final expressions = {
         '[1,2,3]': [1, 2, 3]
       };
 
@@ -246,8 +246,8 @@ void main() {
     });
 
     test('map expression', () {
-      var context = <String, dynamic>{};
-      var expressions = {
+      final context = <String, dynamic>{};
+      final expressions = {
         '{"hello": "world"}': {'hello': 'world'}
       };
 
@@ -257,8 +257,8 @@ void main() {
     });
 
     test('string concat', () {
-      var context = {'a': 'alice', 'b': 'bob'};
-      var expressions = {
+      final context = {'a': 'alice', 'b': 'bob'};
+      final expressions = {
         'a + b': 'alicebob',
         'a + " " + b': 'alice bob',
       };
@@ -269,11 +269,11 @@ void main() {
     });
 
     test('bool members', () {
-      var context = {
+      final context = {
         't': true,
         'f': false,
       };
-      var expressions = {
+      final expressions = {
         't.toString()': 'true',
         'f.toString()': 'false',
         't.toString() + " " + f.toString()': 'true false',
@@ -285,12 +285,12 @@ void main() {
     });
 
     test('iterable members', () {
-      var context = {
+      final context = {
         'list': ['one', 'two', 'three', 'three'],
         'set': {'a', 'b', 'c'},
         'empty': [],
       };
-      var expressions = {
+      final expressions = {
         'empty.isEmpty': true,
         'set.isEmpty': false,
         'list.skip(1).take(2).join(",")': 'two,three',
@@ -304,7 +304,7 @@ void main() {
     });
 
     test('map members', () {
-      var context = {
+      final context = {
         'map': {
           'a': 'one',
           'b': 'two',
@@ -312,7 +312,7 @@ void main() {
         },
         'empty': <String, String>{},
       };
-      var expressions = {
+      final expressions = {
         'empty.isEmpty': true,
         'map.isEmpty': false,
         'map.keys.toList()': ['a', 'b', 'c'],
@@ -325,14 +325,14 @@ void main() {
     });
 
     test('num members', () {
-      var context = {
+      final context = {
         'one': 1,
         'onepone': 1.1,
         'two': 2,
         'minus1p1': -1.1,
         'infinity': double.infinity,
       };
-      var expressions = {
+      final expressions = {
         'one.isNegative': false,
         'minus1p1.isNegative': true,
         'one.toInt()': 1,
@@ -351,14 +351,14 @@ void main() {
     });
 
     test('string members', () {
-      var context = {
+      final context = {
         'a': 'Alice',
         'b': 'Bob',
         'commas': 'a,b,c',
         'empty': '',
         'padded': '  padded  ',
       };
-      var expressions = {
+      final expressions = {
         'a.toUpperCase()': 'ALICE',
         'b.toLowerCase()': 'bob',
         'a.compareTo(b).isNegative': true,
@@ -379,8 +379,8 @@ void main() {
     });
 
     test('null operator expression', () {
-      var context = {'x': 3, 'y': 4, 'z': null};
-      var expressions = {
+      final context = {'x': 3, 'y': 4, 'z': null};
+      final expressions = {
         'x ?? y': 3,
         'z ?? y': 4,
         'x + (z ?? y)': 7,
@@ -394,11 +394,11 @@ void main() {
 
     group('member expressions', () {
       test('toString member', () {
-        var evaluator = ExpressionEvaluator(memberAccessors: [
+        final evaluator = ExpressionEvaluator(memberAccessors: [
           MemberAccessor<Object?>({'toString': (v) => v.toString})
         ]);
 
-        var expression = Expression.parse('x.toString()');
+        final expression = Expression.parse('x.toString()');
 
         expect(evaluator.eval(expression, {'x': null}), 'null');
         expect(evaluator.eval(expression, {'x': 1}), '1');
@@ -408,7 +408,7 @@ void main() {
       });
 
       test('Uri members', () {
-        var evaluator = ExpressionEvaluator(memberAccessors: [
+        final evaluator = ExpressionEvaluator(memberAccessors: [
           MemberAccessor<Uri>({
             'host': (v) => v.host,
             'path': (v) => v.path,
@@ -417,7 +417,7 @@ void main() {
           })
         ]);
 
-        var context = {'x': Uri.parse('http://localhost/index.html?lang=nl')};
+        final context = {'x': Uri.parse('http://localhost/index.html?lang=nl')};
 
         expect(
             evaluator.eval(Expression.parse('x.host'), context), 'localhost');
@@ -429,10 +429,10 @@ void main() {
       });
 
       test('Map members', () {
-        var evaluator =
-            ExpressionEvaluator(memberAccessors: [MemberAccessor.mapAccessor]);
+        final evaluator = const ExpressionEvaluator(
+            memberAccessors: [MemberAccessor.mapAccessor]);
 
-        var context = {
+        final context = {
           'x': {'y': 1, 'z': 2}
         };
 

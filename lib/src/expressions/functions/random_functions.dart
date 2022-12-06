@@ -5,7 +5,7 @@ class RandomFunctions {
   /// The functions related to the Random number generator
   static final functions = {
     'random': ([value]) {
-      var sr = Random.secure();
+      final sr = Random.secure();
       num result;
 
       if (value is num) {

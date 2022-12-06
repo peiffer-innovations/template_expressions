@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:encrypt/encrypt.dart';
 import 'package:pointycastle/asymmetric/api.dart';
 
@@ -27,7 +28,7 @@ class Aes {
     var iv = _iv;
     var encrypted = value;
     if (iv == null || value.contains(':')) {
-      var parts = value.split(':');
+      final parts = value.split(':');
 
       if (parts.length != 2) {
         throw Exception('Attempted to AES decrypt but no IV has been set.');
@@ -37,13 +38,13 @@ class Aes {
       encrypted = parts[1];
     }
 
-    var key = _key;
+    final key = _key;
 
     if (key == null) {
       throw Exception('Attempted to AES decrypt but no key has been set.');
     }
 
-    var encrypter = Encrypter(
+    final encrypter = Encrypter(
       AES(
         Key(key),
         mode: _mode,
@@ -51,7 +52,7 @@ class Aes {
       ),
     );
 
-    var result = encrypter.decryptBytes(
+    final result = encrypter.decryptBytes(
       Encrypted(base64.decode(encrypted)),
       iv: iv,
     );
@@ -77,14 +78,14 @@ class Aes {
       bytes = utf8.encode(value.toString());
     }
 
-    var iv = _iv ?? _createIv();
-    var key = _key;
+    final iv = _iv ?? _createIv();
+    final key = _key;
 
     if (key == null) {
       throw Exception('Attempted to AES encrypt but no key has been set.');
     }
 
-    var encrypter = Encrypter(
+    final encrypter = Encrypter(
       AES(
         Key(key),
         mode: _mode,
@@ -92,7 +93,7 @@ class Aes {
       ),
     );
 
-    var result = encrypter.encryptBytes(bytes, iv: iv);
+    final result = encrypter.encryptBytes(bytes, iv: iv);
 
     return '${iv.base64}:${result.base64}';
   }
@@ -184,24 +185,24 @@ class Rsa {
   /// the passed in value to be of the format:
   /// `${rsaEncryptedAesKey}:${base64Iv}:${base64EncryptedValue}`
   List<int> decrypt(String value) {
-    var parts = value.split(':');
-    var encrypted = '${parts[1]}:${parts[2]}';
+    final parts = value.split(':');
+    final encrypted = '${parts[1]}:${parts[2]}';
 
-    var aes = _aes ?? Aes();
+    final aes = _aes ?? Aes();
 
-    var privateKey = _privateKey;
+    final privateKey = _privateKey;
     if (privateKey == null) {
       throw Exception('RSA attempted to decrypt but [privateKey] is null');
     }
 
-    var key = RSA(
+    final key = RSA(
       encoding: _encoding,
       privateKey: privateKey,
     ).decrypt(
       Encrypted.fromBase64(parts[0]),
     );
 
-    var result = aes.key(key).decrypt(encrypted);
+    final result = aes.key(key).decrypt(encrypted);
 
     return result;
   }
@@ -283,17 +284,17 @@ class Rsa {
       bytes = utf8.encode(value.toString());
     }
 
-    var publicKey = _publicKey;
+    final publicKey = _publicKey;
     if (publicKey == null) {
       throw Exception('RSA attempted to encrypt but [publicKey] is null');
     }
 
-    var aes = _aes ?? Aes();
-    var key =
+    final aes = _aes ?? Aes();
+    final key =
         aes._key ?? SecureRandom(256 /* bits */ ~/ 8 /* bits-per-byte */).bytes;
 
-    var result = aes.key(key).encrypt(bytes);
-    var encryptedKey = RSA(
+    final result = aes.key(key).encrypt(bytes);
+    final encryptedKey = RSA(
       encoding: _encoding,
       publicKey: _publicKey,
     ).encrypt(key);
@@ -337,7 +338,7 @@ class Rsa {
         'RSA attempted to sign but [privateKey] is null',
       );
     }
-    var signer = Signer(RSASigner(
+    final signer = Signer(RSASigner(
       _digest,
       privateKey: _privateKey,
     ));
@@ -366,7 +367,7 @@ class Rsa {
         'RSA attempted to verify but [publicKey] is null',
       );
     }
-    var signer = Signer(RSASigner(
+    final signer = Signer(RSASigner(
       _digest,
       publicKey: _publicKey,
     ));

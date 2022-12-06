@@ -2,16 +2,16 @@ import 'package:template_expressions/template_expressions.dart';
 import 'package:test/test.dart';
 
 void main() {
-  var context = {
+  final context = {
     'a': 'a',
     'b': 'B',
     'c': 'c',
   };
 
   test('hash syntax', () {
-    var syntax = HashExpressionSyntax();
+    final syntax = const HashExpressionSyntax();
     var template = Template(
-      syntax: [HashExpressionSyntax()],
+      syntax: [const HashExpressionSyntax()],
       value: 'Hello World!',
     );
 
@@ -67,18 +67,18 @@ void main() {
   });
 
   test('mixed syntax', () {
-    var syntax = [
-      HashExpressionSyntax(),
-      MustacheExpressionSyntax(),
-      StandardExpressionSyntax(),
+    final syntax = [
+      const HashExpressionSyntax(),
+      const MustacheExpressionSyntax(),
+      const StandardExpressionSyntax(),
     ];
 
-    var myContext = {
+    final myContext = {
       'hash': 'HASH',
       'mustache': 'MUSTACHE',
       'standard': 'STANDARD',
     };
-    var template = Template(
+    final template = Template(
       syntax: syntax,
       value: 'Hello ##hash## {{mustache}} \${standard}!',
     );
@@ -90,7 +90,7 @@ void main() {
   });
 
   test('mustache syntax', () {
-    var syntax = MustacheExpressionSyntax();
+    final syntax = const MustacheExpressionSyntax();
     var template = Template(
       syntax: [syntax],
       value: 'Hello World!',
@@ -142,9 +142,9 @@ void main() {
   });
 
   test('pipe syntax', () {
-    var syntax = PipeExpressionSyntax();
+    final syntax = const PipeExpressionSyntax();
     var template = Template(
-      syntax: [PipeExpressionSyntax()],
+      syntax: [const PipeExpressionSyntax()],
       value: 'Hello World!',
     );
 
@@ -200,7 +200,7 @@ void main() {
   });
 
   test('standard syntax', () {
-    var syntax = StandardExpressionSyntax();
+    final syntax = const StandardExpressionSyntax();
     var template = Template(
       syntax: [syntax],
       value: 'Hello World!',
@@ -346,12 +346,12 @@ void main() {
 
   group('mixed literals', () {
     test('map in array', () {
-      var context = <String, Object>{
+      final context = <String, Object>{
         'eval': (value) => value[0] + value[1]['name'] + value[2],
       };
 
-      var template = Template(
-        syntax: [MustacheExpressionSyntax()],
+      final template = Template(
+        syntax: [const MustacheExpressionSyntax()],
         value: '{{eval(["Hello ", {"name": "Mike"}, "!"])}}',
       );
       expect(
@@ -361,12 +361,12 @@ void main() {
     });
 
     test('array in map', () {
-      var context = <String, Object>{
+      final context = <String, Object>{
         'eval': (value) => value['prefix'] + value['name'][0] + value['suffix'],
       };
 
-      var template = Template(
-        syntax: [MustacheExpressionSyntax()],
+      final template = Template(
+        syntax: [const MustacheExpressionSyntax()],
         value: '{{eval({"prefix": "Hello ", "name": ["Mike"], "suffix":"!"})}}',
       );
       expect(

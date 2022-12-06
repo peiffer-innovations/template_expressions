@@ -244,7 +244,7 @@ dynamic _processIntList(List<int> bytes, String name) {
       break;
 
     case 'toBase64Url':
-      result = () => Base64Codec.urlSafe().encode(bytes);
+      result = () => const Base64Codec.urlSafe().encode(bytes);
       break;
 
     case 'toHex':
@@ -391,7 +391,7 @@ dynamic _processList(List target, String name) {
 
     case 'toJson':
       result = ([padding]) {
-        var indent = JsonClass.parseInt(padding) ?? 0;
+        final indent = JsonClass.parseInt(padding) ?? 0;
 
         return indent == 0
             ? json.encode(target)
@@ -445,7 +445,7 @@ dynamic _processMap(Map target, String name) {
 
     case 'toJson':
       result = ([padding]) {
-        var indent = JsonClass.parseInt(padding) ?? 0;
+        final indent = JsonClass.parseInt(padding) ?? 0;
 
         return indent == 0
             ? json.encode(target)

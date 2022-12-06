@@ -25,12 +25,12 @@ void main() {
     test(
       'hmac',
       () {
-        var key =
+        final key =
             'YWFCa3hKezJNRlQrK0EhPkBrJj5oem42OlUpWCElJVlaMmM+K3RhamA7Zjk3Z1ArRkQ7K1J6bl46diRVSz03UDJwTlczeydnNWc/MmtzdlNmY3I1fUszcShnI31jITg+XlRXcXd4V0VbRntHSEFBS2grUUZUKFR6MmFaPVQqJ04=';
-        var context = {'key': key};
+        final context = {'key': key};
 
-        var template = Template(value: r'${hmac(key, "foobar")}');
-        var actual = template.process(context: context);
+        final template = Template(value: r'${hmac(key, "foobar")}');
+        final actual = template.process(context: context);
 
         expect(actual,
             'e52f174665d7ad3791c2cf8d1f7ab93f654189926975c02defbe3439cdb48716');
@@ -40,12 +40,12 @@ void main() {
     test(
       'hmac256',
       () {
-        var key =
+        final key =
             'YWFCa3hKezJNRlQrK0EhPkBrJj5oem42OlUpWCElJVlaMmM+K3RhamA7Zjk3Z1ArRkQ7K1J6bl46diRVSz03UDJwTlczeydnNWc/MmtzdlNmY3I1fUszcShnI31jITg+XlRXcXd4V0VbRntHSEFBS2grUUZUKFR6MmFaPVQqJ04=';
-        var context = {'key': key};
+        final context = {'key': key};
 
-        var template = Template(value: r'${hmac256(key, "foobar")}');
-        var actual = template.process(context: context);
+        final template = Template(value: r'${hmac256(key, "foobar")}');
+        final actual = template.process(context: context);
 
         expect(actual,
             'e52f174665d7ad3791c2cf8d1f7ab93f654189926975c02defbe3439cdb48716');
@@ -55,12 +55,12 @@ void main() {
     test(
       'hmac512',
       () {
-        var key =
+        final key =
             'YWFCa3hKezJNRlQrK0EhPkBrJj5oem42OlUpWCElJVlaMmM+K3RhamA7Zjk3Z1ArRkQ7K1J6bl46diRVSz03UDJwTlczeydnNWc/MmtzdlNmY3I1fUszcShnI31jITg+XlRXcXd4V0VbRntHSEFBS2grUUZUKFR6MmFaPVQqJ04=';
-        var context = {'key': key};
+        final context = {'key': key};
 
-        var template = Template(value: r'${hmac512(key, "foobar")}');
-        var actual = template.process(context: context);
+        final template = Template(value: r'${hmac512(key, "foobar")}');
+        final actual = template.process(context: context);
 
         expect(actual,
             '1a3a8dc298ecc8c97855e29454145a2deb39a86bb56f49c2bb951c9cbd07f22abf28d868230834973fb4f87cb6121f6cbb2d4ce29f378305a5b3cd7dc8d09aad');
@@ -68,36 +68,36 @@ void main() {
     );
 
     test('md5', () {
-      var template = Template(value: r'${md5("foobar")}');
-      var actual = template.process();
+      final template = Template(value: r'${md5("foobar")}');
+      final actual = template.process();
 
       expect(actual, md5.convert(utf8.encode('foobar')).toString());
     });
 
     test('sha', () {
-      var template = Template(value: r'${sha("foobar")}');
-      var actual = template.process();
+      final template = Template(value: r'${sha("foobar")}');
+      final actual = template.process();
 
       expect(actual, sha256.convert(utf8.encode('foobar')).toString());
     });
 
     test('sha256', () {
-      var template = Template(value: r'${sha256("foobar")}');
-      var actual = template.process();
+      final template = Template(value: r'${sha256("foobar")}');
+      final actual = template.process();
 
       expect(actual, sha256.convert(utf8.encode('foobar')).toString());
     });
 
     test('sha512', () {
-      var template = Template(value: r'${sha512("foobar")}');
-      var actual = template.process();
+      final template = Template(value: r'${sha512("foobar")}');
+      final actual = template.process();
 
       expect(actual, sha512.convert(utf8.encode('foobar')).toString());
     });
   });
 
   group('DateTime', () {
-    var context = <String, dynamic>{};
+    final context = <String, dynamic>{};
     context['year'] = 2022;
 
     test('Map', () {
@@ -110,7 +110,7 @@ void main() {
       );
 
       template = Template(
-        syntax: [MustacheExpressionSyntax()],
+        syntax: [const MustacheExpressionSyntax()],
         value:
             '{{DateTime({"year": year, "month": 2, "day": 07, "hour": 12, "minute": 30, "second": 10, "milliseconds": 20})}}',
       );
@@ -121,8 +121,8 @@ void main() {
     });
 
     test('List', () {
-      var template = Template(
-        syntax: [MustacheExpressionSyntax()],
+      final template = Template(
+        syntax: [const MustacheExpressionSyntax()],
         value: '{{DateTime([year, 2, 07, 12, 30, 10, 20])}}',
       );
       expect(
@@ -133,7 +133,7 @@ void main() {
 
     test('params', () {
       var template = Template(
-        syntax: [MustacheExpressionSyntax()],
+        syntax: [const MustacheExpressionSyntax()],
         value: '{{DateTime(year, 02)}}',
       );
       expect(
@@ -142,7 +142,7 @@ void main() {
       );
 
       template = Template(
-        syntax: [MustacheExpressionSyntax()],
+        syntax: [const MustacheExpressionSyntax()],
         value: '{{DateTime(year, 2, 07, 12, 30, 10, 20)}}',
       );
       expect(
@@ -152,7 +152,7 @@ void main() {
     });
 
     test('epoch millis', () {
-      var template = Template(
+      final template = Template(
         value: r'${DateTime(1645412678503)}',
       );
       expect(
@@ -181,15 +181,15 @@ void main() {
     });
 
     test('now', () {
-      var now = DateTime.now();
-      var customContext = <String, dynamic>{};
+      final now = DateTime.now();
+      final customContext = <String, dynamic>{};
       customContext['now'] = () => now;
       var template = Template(
         value: r'${now().subtract(Duration({"days": 1\})).toUtc()}',
       );
       expect(
         template.process(context: customContext),
-        now.subtract(Duration(days: 1)).toUtc().toString(),
+        now.subtract(const Duration(days: 1)).toUtc().toString(),
       );
 
       template = Template(
@@ -197,23 +197,23 @@ void main() {
       );
       expect(
         template.process(context: customContext),
-        now.subtract(Duration(days: 1)).toUtc().toString(),
+        now.subtract(const Duration(days: 1)).toUtc().toString(),
       );
     });
   });
 
   group('Duration', () {
     test('Map', () {
-      var context = <String, dynamic>{};
+      final context = <String, dynamic>{};
       ;
 
-      var template = Template(
+      final template = Template(
         value:
             r'${Duration({"days": 1, "hours": 2, "minutes": 3, "seconds": 4, "milliseconds": 5\})}',
       );
       expect(
         template.process(context: context),
-        Duration(
+        const Duration(
           days: 1,
           hours: 2,
           minutes: 3,
@@ -224,15 +224,15 @@ void main() {
     });
 
     test('List', () {
-      var context = <String, dynamic>{};
+      final context = <String, dynamic>{};
       ;
 
-      var template = Template(
+      final template = Template(
         value: r'${Duration([1, 2, 3, 4, 5])}',
       );
       expect(
         template.process(context: context),
-        Duration(
+        const Duration(
           days: 1,
           hours: 2,
           minutes: 3,
@@ -243,15 +243,15 @@ void main() {
     });
 
     test('Params', () {
-      var context = <String, dynamic>{};
+      final context = <String, dynamic>{};
       ;
 
-      var template = Template(
+      final template = Template(
         value: r'${Duration(1, 2, 3, 4, 5)}',
       );
       expect(
         template.process(context: context),
-        Duration(
+        const Duration(
           days: 1,
           hours: 2,
           minutes: 3,
@@ -262,14 +262,14 @@ void main() {
     });
 
     test('millis', () {
-      var context = <String, dynamic>{};
+      final context = <String, dynamic>{};
 
-      var template = Template(
+      final template = Template(
         value: r'${Duration(1001)}',
       );
       expect(
         template.process(context: context),
-        Duration(
+        const Duration(
           seconds: 1,
           milliseconds: 1,
         ).toString(),
@@ -278,7 +278,7 @@ void main() {
   });
 
   group('JsonPath', () {
-    var context = {
+    final context = {
       'person': {
         'name': {
           'first': 'John',
@@ -287,7 +287,7 @@ void main() {
       },
     };
     test('JsonPath', () {
-      var template = Template(
+      final template = Template(
         value:
             r'${JsonPath("$.name.first").read(person).first.value + " " + JsonPath("$.name.last").read(person).first.value}',
       );
@@ -299,7 +299,7 @@ void main() {
     });
 
     test('json_path', () {
-      var template = Template(
+      final template = Template(
         value:
             r'${json_path(person, "$.name.first").toUpperCase() + " " + json_path(person, "$.name.last").toUpperCase()}',
       );
@@ -311,7 +311,7 @@ void main() {
     });
 
     test('json_path simple', () {
-      var template = Template(
+      final template = Template(
         value: r"${json_path(person, '$.name.first')}",
       );
 
@@ -323,7 +323,7 @@ void main() {
   });
 
   group('List<int>', () {
-    var input = 'Hello, World!';
+    final input = 'Hello, World!';
 
     test('toBase64', () {
       expect(
@@ -355,21 +355,21 @@ void main() {
 
   group('random', () {
     test('int', () {
-      var template = Template(
+      final template = Template(
         value: r'${random(100)}',
       );
 
-      var processed = int.parse(template.process());
+      final processed = int.parse(template.process());
 
       expect(processed >= 0 && processed < 100, true);
     });
 
     test('double', () {
-      var template = Template(
+      final template = Template(
         value: r'${random()}',
       );
 
-      var processed = double.parse(template.process());
+      final processed = double.parse(template.process());
 
       expect(processed >= 0.0 && processed < 1.0, true);
     });

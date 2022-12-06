@@ -16,11 +16,11 @@ class Template {
   final String _value;
 
   String process({Map<dynamic, dynamic> context = const {}}) {
-    var buffer = StringBuffer();
-    var length = _value.length;
-    var entries = <ExpressionEntry>[];
+    final buffer = StringBuffer();
+    final length = _value.length;
+    final entries = <ExpressionEntry>[];
 
-    var ctx = <String, Object>{};
+    final ctx = <String, Object>{};
     for (var entry in context.entries) {
       if (entry.key != null && entry.value != null) {
         ctx[entry.key.toString()] = entry.value;
@@ -67,7 +67,7 @@ class Template {
         }
       } else {
         end += ch;
-        var syntax = entry.syntax;
+        final syntax = entry.syntax;
 
         if (syntax.escapeChar == ch &&
             i < _value.length - 1 &&
@@ -97,10 +97,10 @@ class Template {
     var data = buffer.toString();
 
     entries.sort();
-    var evaluator = const ExpressionEvaluator();
+    final evaluator = const ExpressionEvaluator();
     for (var entry in entries) {
       try {
-        var evaled = evaluator.eval(Expression.parse(entry.content), ctx);
+        final evaled = evaluator.eval(Expression.parse(entry.content), ctx);
         data = entry.replace(
           data,
           evaled == null ? '' : evaled.toString().trim(),

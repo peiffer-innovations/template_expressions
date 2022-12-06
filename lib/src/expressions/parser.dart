@@ -143,26 +143,26 @@ class ExpressionParser {
 
   Parser<Expression> get binaryExpression =>
       token.plusSeparated(binaryOperation).withSeparators().map((l) {
-        var first = l[0];
-        var stack = <dynamic>[first];
+        final first = l[0];
+        final stack = <dynamic>[first];
 
         for (var i = 1; i < l.length; i += 2) {
-          var op = l[i];
-          var prec = BinaryExpression.precedenceForOperator(op);
+          final op = l[i];
+          final prec = BinaryExpression.precedenceForOperator(op);
 
           // Reduce: make a binary expression from the three topmost entries.
           while ((stack.length > 2) &&
               (prec <=
                   BinaryExpression.precedenceForOperator(
                       stack[stack.length - 2]))) {
-            var right = stack.removeLast();
-            var op = stack.removeLast();
-            var left = stack.removeLast();
-            var node = BinaryExpression(op, left, right);
+            final right = stack.removeLast();
+            final op = stack.removeLast();
+            final left = stack.removeLast();
+            final node = BinaryExpression(op, left, right);
             stack.add(node);
           }
 
-          var node = l[i + 1];
+          final node = l[i + 1];
           stack.addAll([op, node]);
         }
 
@@ -211,8 +211,8 @@ class ExpressionParser {
   Parser<Expression> get variable => groupOrIdentifier
           .seq((memberArgument.cast() | indexArgument | callArgument).star())
           .map((l) {
-        var a = l[0] as Expression;
-        var b = l[1] as List;
+        final a = l[0] as Expression;
+        final b = l[1] as List;
         return b.fold(a, (Expression object, argument) {
           dynamic result;
 

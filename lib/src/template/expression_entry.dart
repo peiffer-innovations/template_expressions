@@ -41,8 +41,8 @@ class ExpressionEntry implements Comparable<ExpressionEntry> {
   /// entry.  This knows it's place within the target and will replace the value
   /// in the target with the [newValue] that was passed in.
   String replace(String target, String newValue) {
-    var prefix = target.substring(0, startPosition);
-    var suffix = target.substring(
+    final prefix = target.substring(0, startPosition);
+    final suffix = target.substring(
       startPosition + _value.length,
       target.length,
     );

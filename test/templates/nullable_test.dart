@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('nullable', () {
-    var context = {
+    final context = {
       'person': {
         'name': {
           'first': 'John',
@@ -13,7 +13,7 @@ void main() {
     };
 
     test('nullable map', () {
-      var template = Template(
+      final template = Template(
         value: r'${map["foo"].isNotEmpty}',
       );
       expect(
@@ -23,7 +23,7 @@ void main() {
     });
 
     test('nullable map', () {
-      var template = Template(
+      final template = Template(
         value: r'${map["foo"].isNotEmpty == true ? "notEmpty": "empty"}',
       );
       expect(
@@ -33,7 +33,7 @@ void main() {
     });
 
     test('json_path: nullable', () {
-      var template = Template(
+      final template = Template(
         value:
             r'${json_path(person, "$.name.firstName").isNotEmpty == true ? "notEmpty" : "empty"}',
       );

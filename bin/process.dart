@@ -11,19 +11,19 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  var inFile = File(args[0]);
+  final inFile = File(args[0]);
   if (!inFile.existsSync()) {
     print('Unable to locate template file: [${inFile.absolute.path}]');
     exit(1);
   }
-  var template = Template(value: inFile.readAsStringSync());
+  final template = Template(value: inFile.readAsStringSync());
 
-  var context = <String, dynamic>{};
+  final context = <String, dynamic>{};
   if (args.length >= 2) {
-    var file = File(args[1]);
+    final file = File(args[1]);
 
     if (file.existsSync()) {
-      var data = file.readAsStringSync();
+      final data = file.readAsStringSync();
       context.addAll(json.decode(data));
     } else {
       print('Unable to locate context file: [${file.absolute.path}]');
@@ -31,7 +31,7 @@ Future<void> main(List<String> args) async {
     }
   }
 
-  var result = template.process(context: context);
+  final result = template.process(context: context);
   print(result);
 
   exit(0);

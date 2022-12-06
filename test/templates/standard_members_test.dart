@@ -21,7 +21,7 @@ void main() {
 
   group('Codex', () {
     test('base64', () {
-      var input =
+      final input =
           r'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=`~!@#$%^&*()_+[]{},./<>?;:"\|';
       var template = Template(
         value: r'${utf8.decode(base64.decode(input))}',
@@ -45,7 +45,7 @@ void main() {
     });
 
     test('base64url', () {
-      var input =
+      final input =
           r'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=`~!@#$%^&*()_+[]{},./<>?;:"\|';
       var template = Template(
         value: r'${utf8.decode(base64url.decode(input))}',
@@ -71,7 +71,7 @@ void main() {
     });
 
     test('hex', () {
-      var template = Template(
+      final template = Template(
         value: r'${utf8.decode(hex.decode(hex.encode(utf8.encode(input))))}',
       );
 
@@ -82,9 +82,9 @@ void main() {
     });
 
     test('json', () {
-      var input = '{"foo":"bar"}';
+      final input = '{"foo":"bar"}';
 
-      var template = Template(
+      final template = Template(
         value: r'${json.encode(json.decode(input))}',
       );
 
@@ -92,7 +92,7 @@ void main() {
     });
 
     test('utf8', () {
-      var template = Template(
+      final template = Template(
         value: r'${utf8.decode(utf8.encode(input))}',
       );
 
@@ -106,13 +106,13 @@ void main() {
   });
 
   group('DateTime', () {
-    var start = DateTime(2022, 2, 7);
+    final start = DateTime(2022, 2, 7);
     test('add', () {
-      var context = {
+      final context = {
         'start': start,
       };
-      var template = Template(
-        syntax: [MustacheExpressionSyntax()],
+      final template = Template(
+        syntax: [const MustacheExpressionSyntax()],
         value: '{{start.add(minutes(5).add(seconds(30)))}}',
       );
 
@@ -120,7 +120,7 @@ void main() {
         template.process(context: context),
         DateTime.fromMillisecondsSinceEpoch(
           start.millisecondsSinceEpoch +
-              Duration(
+              const Duration(
                 minutes: 5,
                 seconds: 30,
               ).inMilliseconds,
@@ -129,11 +129,11 @@ void main() {
     });
 
     test('subtract', () {
-      var context = {
+      final context = {
         'start': start,
       };
-      var template = Template(
-        syntax: [MustacheExpressionSyntax()],
+      final template = Template(
+        syntax: [const MustacheExpressionSyntax()],
         value: '{{start.subtract(minutes(5).subtract(seconds(30)))}}',
       );
 
@@ -141,7 +141,7 @@ void main() {
         template.process(context: context),
         DateTime.fromMillisecondsSinceEpoch(
           start.millisecondsSinceEpoch -
-              Duration(
+              const Duration(
                 minutes: 4,
                 seconds: 30,
               ).inMilliseconds,
@@ -152,7 +152,7 @@ void main() {
 
   group('List', () {
     test('toJson', () {
-      var context = {
+      final context = {
         'input': [
           'John',
           'Smith',
@@ -161,7 +161,7 @@ void main() {
 
       expect(
         Template(value: r'${input.toJson(2)}').process(context: context),
-        JsonEncoder.withIndent('  ').convert(context['input']),
+        const JsonEncoder.withIndent('  ').convert(context['input']),
       );
 
       expect(
@@ -173,7 +173,7 @@ void main() {
 
   group('Map', () {
     test('toJson', () {
-      var context = {
+      final context = {
         'input': {
           'name': {
             'first': 'John',
@@ -184,7 +184,7 @@ void main() {
 
       expect(
         Template(value: r'${input.toJson(2)}').process(context: context),
-        JsonEncoder.withIndent('  ').convert(context['input']),
+        const JsonEncoder.withIndent('  ').convert(context['input']),
       );
 
       expect(
@@ -196,8 +196,8 @@ void main() {
 
   group('MapEntry', () {
     test('key / value', () {
-      var context = {
-        'input': MapEntry('KEY', 'VALUE'),
+      final context = {
+        'input': const MapEntry('KEY', 'VALUE'),
       };
 
       expect(
@@ -214,7 +214,7 @@ void main() {
 
   group('String', () {
     test('decode', () {
-      var template = Template(
+      final template = Template(
         value: r'${input.decode()["last"] + ", " + input.decode()["first"]}',
       );
 
@@ -227,7 +227,7 @@ void main() {
     });
 
     test('replaceAll', () {
-      var template = Template(value: r'${input.replaceAll("\n", "\\n")}');
+      final template = Template(value: r'${input.replaceAll("\n", "\\n")}');
 
       expect(
         template.process(
@@ -240,7 +240,7 @@ void main() {
     });
 
     test('toLowerCase', () {
-      var template = Template(
+      final template = Template(
         value: r'${input.toLowerCase()}',
       );
 
@@ -253,7 +253,7 @@ void main() {
     });
 
     test('toUpperCase', () {
-      var template = Template(
+      final template = Template(
         value: r'${input.toUpperCase()}',
       );
 
@@ -266,7 +266,7 @@ void main() {
     });
 
     test('trim', () {
-      var template = Template(
+      final template = Template(
         value: r'${input.trim()}',
       );
 
