@@ -7,10 +7,83 @@ import 'package:test/test.dart';
 
 void main() {
   group('AsyncExpressionEvaluator', () {
+    test('Delayed Future', () async {
+      final startTime = DateTime.now().millisecondsSinceEpoch;
+      final expression = Expression.parse('delayed(seconds(2))');
+
+      const evaluator = AsyncExpressionEvaluator();
+
+      await evaluator.eval(expression, {}).first;
+
+      expect(
+        DateTime.now().millisecondsSinceEpoch - startTime,
+        greaterThan(1900),
+      );
+    });
+
+    test('Delayed Assignment', () async {
+      final context = <String, dynamic>{
+        'add': (a, b) async {
+          await Future.delayed(const Duration(milliseconds: 100));
+
+          return a + b;
+        }
+      };
+      final startTime = DateTime.now().millisecondsSinceEpoch;
+      final expression = Expression.parse('x = add(add(1, 2), add(2, 3))');
+
+      const evaluator = AsyncExpressionEvaluator();
+
+      final result = await evaluator
+          .eval(
+            expression,
+            context,
+            onValueAssigned: (name, value) => context[name] = value,
+          )
+          .first;
+
+      expect(result, 8);
+      expect(context['x'], 8);
+
+      expect(
+        DateTime.now().millisecondsSinceEpoch - startTime,
+        greaterThan(190),
+      );
+    });
+
+    test('Delayed Future', () async {
+      final startTime = DateTime.now().millisecondsSinceEpoch;
+      final expression = Expression.parse(
+        'x.addDelayed(seconds(1), 2)',
+      );
+
+      final evaluator = ExpressionEvaluator.async(
+        memberAccessors: [
+          MemberAccessor<int>(
+            {
+              'addDelayed': (i) => (delay, value) async {
+                    await Future.delayed(delay);
+                    return i + value;
+                  },
+            },
+          ),
+        ],
+      );
+
+      final result = await evaluator.eval(expression, {'x': 1}).first;
+
+      expect(result, 3);
+
+      expect(
+        DateTime.now().millisecondsSinceEpoch - startTime,
+        greaterThan(900),
+      );
+    });
+
     test('Binary expression with single stream', () async {
       final expression = Expression.parse('x > 70');
 
-      final evaluator = const AsyncExpressionEvaluator();
+      const evaluator = AsyncExpressionEvaluator();
 
       final f = evaluator.eval(expression, {
         'x': Stream.fromIterable([50, 80])
@@ -22,18 +95,18 @@ void main() {
     test('Binary expression with future', () async {
       final expression = Expression.parse('x > 70');
 
-      final evaluator = const AsyncExpressionEvaluator();
+      const evaluator = AsyncExpressionEvaluator();
 
       final f = evaluator.eval(expression, {'x': Future.value(50)});
 
-      expect(await f.toList(), [false]);
+      expect(await f.first, false);
     });
 
     test('Binary expression with two streams', () async {
       return fakeAsync((async) async {
         final expression = Expression.parse('x > y');
 
-        final evaluator = const AsyncExpressionEvaluator();
+        const evaluator = AsyncExpressionEvaluator();
 
         final controllerX = StreamController();
         final controllerY = StreamController();
@@ -75,7 +148,7 @@ void main() {
       fakeAsync((async) {
         final expression = Expression.parse('x > y');
 
-        final evaluator = const AsyncExpressionEvaluator();
+        const evaluator = AsyncExpressionEvaluator();
 
         final stream = evaluator.eval(expression, {
           'x': 10,
@@ -93,7 +166,7 @@ void main() {
     test('Unary expression with single stream', () async {
       final expression = Expression.parse('- x');
 
-      final evaluator = const AsyncExpressionEvaluator();
+      const evaluator = AsyncExpressionEvaluator();
 
       final f = evaluator.eval(expression, {
         'x': Stream.fromIterable([50, 80])
@@ -105,7 +178,7 @@ void main() {
     test('Call expression with stream result', () async {
       final expression = Expression.parse('f()');
 
-      final evaluator = const AsyncExpressionEvaluator();
+      const evaluator = AsyncExpressionEvaluator();
 
       final f = evaluator.eval(expression, {
         'f': () => Stream.fromIterable(['hello', 'world'])
@@ -117,7 +190,7 @@ void main() {
     test('Call expression with future result', () async {
       final expression = Expression.parse('f()');
 
-      final evaluator = const AsyncExpressionEvaluator();
+      const evaluator = AsyncExpressionEvaluator();
 
       final f =
           evaluator.eval(expression, {'f': () => Future.value('hello world')});
@@ -128,7 +201,7 @@ void main() {
     test('Call expression with non stream result', () async {
       final expression = Expression.parse('f()');
 
-      final evaluator = const AsyncExpressionEvaluator();
+      const evaluator = AsyncExpressionEvaluator();
 
       final f = evaluator.eval(expression, {'f': () => 'hello world'});
 
@@ -139,7 +212,7 @@ void main() {
       await fakeAsync((async) async {
         final expression = Expression.parse('f(x,y,z)');
 
-        final evaluator = const AsyncExpressionEvaluator();
+        const evaluator = AsyncExpressionEvaluator();
 
         final controllerX = StreamController();
         final controllerY = StreamController();
@@ -190,7 +263,7 @@ void main() {
       await fakeAsync((async) async {
         final expression = Expression.parse('f(x)');
 
-        final evaluator = const AsyncExpressionEvaluator();
+        const evaluator = AsyncExpressionEvaluator();
 
         final controllerX = StreamController();
         final controllerY = StreamController();
@@ -247,7 +320,7 @@ void main() {
       await fakeAsync((async) async {
         final expression = Expression.parse('x ? y : z');
 
-        final evaluator = const AsyncExpressionEvaluator();
+        const evaluator = AsyncExpressionEvaluator();
 
         final controllerX = StreamController();
         final controllerY = StreamController();
@@ -293,7 +366,7 @@ void main() {
       await fakeAsync((async) async {
         final expression = Expression.parse('x[y]');
 
-        final evaluator = const AsyncExpressionEvaluator();
+        const evaluator = AsyncExpressionEvaluator();
 
         final controllerX = StreamController();
         final controllerY = StreamController();

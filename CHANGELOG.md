@@ -1,3 +1,14 @@
+## [2.1.0] - December 25th, 2022
+
+* Assed `CustomizableMemberAccessor`
+* Added `delay` as a synonym to `delayed`
+* Added `Logger` functions
+* Added `processAsync` to the Template
+* Added support for `delayed` as a function
+* Added ability to pass in the member accessors for parsing templates
+* Added `onValueChanged` and support for the assignment operator to assign values as part of expressions
+
+
 ## [2.0.0+4] - December 20, 2022
 
 * Automated dependency updates

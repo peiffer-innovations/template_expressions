@@ -9,7 +9,7 @@ void main() {
   };
 
   test('hash syntax', () {
-    final syntax = const HashExpressionSyntax();
+    const syntax = HashExpressionSyntax();
     var template = Template(
       syntax: [const HashExpressionSyntax()],
       value: 'Hello World!',
@@ -90,7 +90,7 @@ void main() {
   });
 
   test('mustache syntax', () {
-    final syntax = const MustacheExpressionSyntax();
+    const syntax = MustacheExpressionSyntax();
     var template = Template(
       syntax: [syntax],
       value: 'Hello World!',
@@ -142,7 +142,7 @@ void main() {
   });
 
   test('pipe syntax', () {
-    final syntax = const PipeExpressionSyntax();
+    const syntax = PipeExpressionSyntax();
     var template = Template(
       syntax: [const PipeExpressionSyntax()],
       value: 'Hello World!',
@@ -200,7 +200,7 @@ void main() {
   });
 
   test('standard syntax', () {
-    final syntax = const StandardExpressionSyntax();
+    const syntax = StandardExpressionSyntax();
     var template = Template(
       syntax: [syntax],
       value: 'Hello World!',

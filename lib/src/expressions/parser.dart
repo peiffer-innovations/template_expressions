@@ -132,6 +132,7 @@ class ExpressionParser {
     '/': 10,
     '%': 10,
     '??': 11,
+    '=': 8,
   };
 
   // This function is responsible for gobbling an individual expression,

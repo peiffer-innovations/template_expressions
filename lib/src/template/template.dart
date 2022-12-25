@@ -15,17 +15,81 @@ class Template {
   final List<ExpressionSyntax> _syntax;
   final String _value;
 
-  String process({Map<dynamic, dynamic> context = const {}}) {
-    final buffer = StringBuffer();
-    final length = _value.length;
-    final entries = <ExpressionEntry>[];
-
+  String process({
+    Map<dynamic, dynamic> context = const {},
+    List<MemberAccessor<dynamic>> memberAccessors = const [],
+  }) {
     final ctx = <String, Object>{};
     for (var entry in context.entries) {
       if (entry.key != null && entry.value != null) {
         ctx[entry.key.toString()] = entry.value;
       }
     }
+
+    final prepared = _prepare();
+    var data = prepared.data;
+
+    final evaluator = ExpressionEvaluator(
+      memberAccessors: memberAccessors,
+    );
+    for (var entry in prepared.entries) {
+      try {
+        final evaled = evaluator.eval(Expression.parse(entry.content), ctx);
+        data = entry.replace(
+          data,
+          evaled == null ? '' : evaled.toString().trim(),
+        );
+      } catch (e, stack) {
+        _logger.severe('Unable to parse input: [${entry.content}]', e, stack);
+        rethrow;
+      }
+    }
+
+    return data;
+  }
+
+  Future<String> processAsync({
+    Map<dynamic, dynamic> context = const {},
+    List<MemberAccessor<dynamic>> memberAccessors = const [],
+  }) async {
+    final ctx = <String, Object>{};
+    for (var entry in context.entries) {
+      if (entry.key != null && entry.value != null) {
+        ctx[entry.key.toString()] = entry.value;
+      }
+    }
+
+    final prepared = _prepare();
+    var data = prepared.data;
+
+    final evaluator = ExpressionEvaluator.async(
+      memberAccessors: memberAccessors,
+    );
+    for (var entry in prepared.entries) {
+      try {
+        final evaled = await evaluator
+            .eval(
+              Expression.parse(entry.content),
+              ctx,
+            )
+            .first;
+        data = entry.replace(
+          data,
+          evaled == null ? '' : evaled.toString().trim(),
+        );
+      } catch (e, stack) {
+        _logger.severe('Unable to parse input: [${entry.content}]', e, stack);
+        rethrow;
+      }
+    }
+
+    return data;
+  }
+
+  _ExpressionResult _prepare() {
+    final buffer = StringBuffer();
+    final length = _value.length;
+    final entries = <ExpressionEntry>[];
 
     ExpressionEntry? entry;
 
@@ -94,23 +158,21 @@ class Template {
       buffer.write(ch);
     }
 
-    var data = buffer.toString();
-
     entries.sort();
-    final evaluator = const ExpressionEvaluator();
-    for (var entry in entries) {
-      try {
-        final evaled = evaluator.eval(Expression.parse(entry.content), ctx);
-        data = entry.replace(
-          data,
-          evaled == null ? '' : evaled.toString().trim(),
-        );
-      } catch (e, stack) {
-        _logger.severe('Unable to parse input: [${entry.content}]', e, stack);
-        rethrow;
-      }
-    }
 
-    return data;
+    return _ExpressionResult(
+      data: buffer.toString(),
+      entries: entries,
+    );
   }
+}
+
+class _ExpressionResult {
+  _ExpressionResult({
+    required this.data,
+    required this.entries,
+  });
+
+  final String data;
+  final List<ExpressionEntry> entries;
 }

@@ -17,6 +17,7 @@ export 'functions/crypto_functions.dart';
 export 'functions/date_time_functions.dart';
 export 'functions/duration_functions.dart';
 export 'functions/encrypt_functions.dart';
+export 'functions/future_functions.dart';
 export 'functions/json_path_functions.dart';
 export 'functions/random_functions.dart';
 
@@ -72,6 +73,7 @@ class ExpressionEvaluator {
     ...DateTimeFunctions.functions,
     ...DurationFunctions.functions,
     ...EncryptFunctions.functions,
+    ...FutureFunctions.functions,
     ...JsonPathFunctions.functions,
     ...RandomFunctions.functions,
   };
@@ -82,9 +84,9 @@ class ExpressionEvaluator {
 
   dynamic eval(
     Expression expression,
-    Map<String, dynamic> context,
-  ) {
-    _logger.finest('[eval]: evaluating.... [${expression.toTokenString()}]');
+    Map<String, dynamic> context, {
+    void Function(String key, dynamic value)? onValueAssigned,
+  }) {
     dynamic result;
     final ctx = Map<String, dynamic>.from(context);
     _delegate.forEach((key, value) => ctx.putIfAbsent(key, () => value));
@@ -112,13 +114,21 @@ class ExpressionEvaluator {
     } else if (expression is UnaryExpression) {
       result = evalUnaryExpression(expression, ctx);
     } else if (expression is BinaryExpression) {
-      result = evalBinaryExpression(expression, ctx);
+      result = evalBinaryExpression(
+        expression,
+        ctx,
+        onValueAssigned: onValueAssigned,
+      );
     } else if (expression is ConditionalExpression) {
       result = evalConditionalExpression(expression, ctx);
     } else {
       throw ArgumentError(
           "Unknown expression type '${expression.runtimeType}'");
     }
+
+    _logger.finest(
+      '[eval]: evaluated.... [${expression.toTokenString()}] => [$result]',
+    );
     return result;
   }
 
@@ -237,12 +247,22 @@ class ExpressionEvaluator {
   @protected
   dynamic evalBinaryExpression(
     BinaryExpression expression,
-    Map<String, dynamic> context,
-  ) {
+    Map<String, dynamic> context, {
+    void Function(String key, dynamic value)? onValueAssigned,
+  }) {
     dynamic result;
     final left = eval(expression.left, context);
-    final right = () => eval(expression.right, context);
+    dynamic right() => eval(expression.right, context);
     switch (expression.operator) {
+      case '=':
+        final leftVar = expression.left.toString();
+        result = right();
+        context[leftVar] = result;
+        if (onValueAssigned != null) {
+          onValueAssigned(leftVar, result);
+        }
+        break;
+
       case '||':
         result = left || right();
         break;
@@ -366,7 +386,9 @@ class ExpressionEvaluator {
 
     if (!found && !nullable) {
       throw ExpressionEvaluatorException.memberAccessNotSupported(
-          obj.runtimeType, member);
+        obj.runtimeType,
+        member,
+      );
     }
 
     return result;
@@ -389,6 +411,20 @@ class ExpressionEvaluatorException implements Exception {
 
 typedef SingleMemberAccessor<T> = dynamic Function(T);
 typedef AnyMemberAccessor<T> = dynamic Function(T, String member);
+
+class CustomizableMemberAccessor<T> extends _MemberAccessor<T>
+    implements MemberAccessor<T> {
+  CustomizableMemberAccessor(super.accessors);
+
+  void addAccessor(
+    String name,
+    SingleMemberAccessor<T> accessor,
+  ) =>
+      accessors[name] = accessor;
+
+  void addAccessors(Map<String, SingleMemberAccessor<T>> accessors) =>
+      this.accessors.addAll(accessors);
+}
 
 abstract class MemberAccessor<T> {
   const factory MemberAccessor(Map<String, SingleMemberAccessor<T>> accessors) =

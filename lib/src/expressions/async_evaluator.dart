@@ -26,20 +26,37 @@ class AsyncExpressionEvaluator extends ExpressionEvaluator {
   final ExpressionEvaluator baseEvaluator = const ExpressionEvaluator();
 
   @override
-  Stream eval(Expression expression, Map<String, dynamic> context) {
-    return _asStream(super.eval(expression, context));
+  Stream eval(
+    Expression expression,
+    Map<String, dynamic> context, {
+    void Function(String name, dynamic value)? onValueAssigned,
+  }) {
+    return _asStream(super.eval(
+      expression,
+      context,
+      onValueAssigned: onValueAssigned,
+    ));
   }
 
   @override
   Stream evalBinaryExpression(
-      BinaryExpression expression, Map<String, dynamic> context) {
+    BinaryExpression expression,
+    Map<String, dynamic> context, {
+    void Function(String name, dynamic value)? onValueAssigned,
+  }) {
     final left = eval(expression.left, context);
     final right = eval(expression.right, context);
 
     return CombineLatestStream.combine2(left, right, (a, b) {
       return baseEvaluator.evalBinaryExpression(
-          BinaryExpression(expression.operator, _asLiteral(a), _asLiteral(b)),
-          context);
+        BinaryExpression(
+          expression.operator,
+          expression.operator == '=' ? expression.left : _asLiteral(a),
+          _asLiteral(b),
+        ),
+        context,
+        onValueAssigned: onValueAssigned,
+      );
     });
   }
 

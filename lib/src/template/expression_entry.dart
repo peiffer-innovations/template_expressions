@@ -47,6 +47,6 @@ class ExpressionEntry implements Comparable<ExpressionEntry> {
       target.length,
     );
 
-    return '${prefix}${newValue}${suffix}';
+    return '$prefix$newValue$suffix';
   }
 }

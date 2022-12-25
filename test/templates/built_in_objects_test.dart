@@ -25,7 +25,7 @@ void main() {
     test(
       'hmac',
       () {
-        final key =
+        const key =
             'YWFCa3hKezJNRlQrK0EhPkBrJj5oem42OlUpWCElJVlaMmM+K3RhamA7Zjk3Z1ArRkQ7K1J6bl46diRVSz03UDJwTlczeydnNWc/MmtzdlNmY3I1fUszcShnI31jITg+XlRXcXd4V0VbRntHSEFBS2grUUZUKFR6MmFaPVQqJ04=';
         final context = {'key': key};
 
@@ -40,7 +40,7 @@ void main() {
     test(
       'hmac256',
       () {
-        final key =
+        const key =
             'YWFCa3hKezJNRlQrK0EhPkBrJj5oem42OlUpWCElJVlaMmM+K3RhamA7Zjk3Z1ArRkQ7K1J6bl46diRVSz03UDJwTlczeydnNWc/MmtzdlNmY3I1fUszcShnI31jITg+XlRXcXd4V0VbRntHSEFBS2grUUZUKFR6MmFaPVQqJ04=';
         final context = {'key': key};
 
@@ -55,7 +55,7 @@ void main() {
     test(
       'hmac512',
       () {
-        final key =
+        const key =
             'YWFCa3hKezJNRlQrK0EhPkBrJj5oem42OlUpWCElJVlaMmM+K3RhamA7Zjk3Z1ArRkQ7K1J6bl46diRVSz03UDJwTlczeydnNWc/MmtzdlNmY3I1fUszcShnI31jITg+XlRXcXd4V0VbRntHSEFBS2grUUZUKFR6MmFaPVQqJ04=';
         final context = {'key': key};
 
@@ -205,7 +205,6 @@ void main() {
   group('Duration', () {
     test('Map', () {
       final context = <String, dynamic>{};
-      ;
 
       final template = Template(
         value:
@@ -225,7 +224,6 @@ void main() {
 
     test('List', () {
       final context = <String, dynamic>{};
-      ;
 
       final template = Template(
         value: r'${Duration([1, 2, 3, 4, 5])}',
@@ -244,7 +242,6 @@ void main() {
 
     test('Params', () {
       final context = <String, dynamic>{};
-      ;
 
       final template = Template(
         value: r'${Duration(1, 2, 3, 4, 5)}',
@@ -273,6 +270,38 @@ void main() {
           seconds: 1,
           milliseconds: 1,
         ).toString(),
+      );
+    });
+  });
+
+  group('Future', () {
+    final context = {
+      'a': () async {
+        await Future.delayed(const Duration(seconds: 1));
+        return 1;
+      },
+      'b': () async {
+        await Future.delayed(const Duration(seconds: 1));
+        return 2;
+      }
+    };
+
+    test('async', () async {
+      final startTime = DateTime.now().millisecondsSinceEpoch;
+      final template = Template(
+        value: r'${a() + b()}',
+      );
+
+      expect(
+        await template.processAsync(
+          context: context,
+        ),
+        '3',
+      );
+
+      expect(
+        DateTime.now().millisecondsSinceEpoch - startTime,
+        greaterThan(900),
       );
     });
   });
@@ -323,7 +352,7 @@ void main() {
   });
 
   group('List<int>', () {
-    final input = 'Hello, World!';
+    const input = 'Hello, World!';
 
     test('toBase64', () {
       expect(

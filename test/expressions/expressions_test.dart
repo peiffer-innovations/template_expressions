@@ -177,7 +177,51 @@ void main() {
   });
 
   group('evaluation', () {
-    final evaluator = const ExpressionEvaluator();
+    const evaluator = ExpressionEvaluator();
+
+    test('assignment', () {
+      final context = <String, dynamic>{};
+      final parsed = Expression.parse('x = 1 + 2 * 3');
+      expect(
+        evaluator.eval(
+          parsed,
+          context,
+          onValueAssigned: (name, value) => context[name] = value,
+        ),
+        7,
+      );
+
+      expect(context['x'], 7);
+    });
+
+    test('nested functions', () {
+      final parsed = Expression.parse(
+        'add(add(0, 1), add(2, add(3, add(4, 5))))',
+      );
+
+      expect(
+        evaluator.eval(parsed, {
+          'add': (a, b) => a + b,
+        }),
+        15,
+      );
+    });
+
+    test('dynamic args', () {
+      final context = {
+        'add': (a, [b, c, d, e, f]) =>
+            a + (b ?? 0) + (c ?? 0) + (d ?? 0) + (e ?? 0) + (f ?? 0),
+      };
+      final expressions = {
+        'add(0, 1, 2, 3, 4, 5)': 15,
+        'add(0, 1, 2, 3)': 6,
+        'add(0)': 0,
+      };
+
+      expressions.forEach((e, r) {
+        expect(evaluator.eval(Expression.parse(e), context), r);
+      });
+    });
 
     test('math and logical expressions', () {
       final context = {'x': 3, 'y': 4, 'z': 5};
@@ -368,6 +412,7 @@ void main() {
         'commas.split(",").join("|")': 'a|b|c',
         'empty.isEmpty': true,
         'a.substring(2, 3) + b.substring(1,2)': 'io',
+        '(a.substring(2, 3) + b.substring(1,2)).toUpperCase()': 'IO',
         'padded.trim()': 'padded',
         'padded.trimLeft()': 'padded  ',
         'padded.trimRight()': '  padded',
@@ -411,7 +456,19 @@ void main() {
         final evaluator = ExpressionEvaluator(memberAccessors: [
           MemberAccessor<Uri>({
             'host': (v) => v.host,
+            'isScheme': (v) => v.isScheme,
             'path': (v) => v.path,
+            'replace': (v) => (map) => v.replace(
+                  fragment: map['fragment'],
+                  host: map['host'],
+                  path: map['path'],
+                  pathSegments: map['pathSegments'],
+                  port: map['port'],
+                  query: map['query'],
+                  queryParameters: map['queryParameters'],
+                  scheme: map['scheme'],
+                  userInfo: map['userInfo'],
+                ),
             'scheme': (v) => v.scheme,
             'queryParameters': (v) => v.queryParameters,
           })
@@ -422,6 +479,16 @@ void main() {
         expect(
             evaluator.eval(Expression.parse('x.host'), context), 'localhost');
         expect(
+          evaluator.eval(Expression.parse('x.isScheme("HTTP")'), context),
+          true,
+        );
+        expect(
+          evaluator.eval(
+              Expression.parse('x.replace({"scheme": "https"}).scheme'),
+              context),
+          'https',
+        );
+        expect(
             evaluator.eval(Expression.parse('x.path'), context), '/index.html');
         expect(evaluator.eval(Expression.parse('x.scheme'), context), 'http');
         expect(evaluator.eval(Expression.parse('x.queryParameters'), context),
@@ -429,8 +496,8 @@ void main() {
       });
 
       test('Map members', () {
-        final evaluator = const ExpressionEvaluator(
-            memberAccessors: [MemberAccessor.mapAccessor]);
+        const evaluator =
+            ExpressionEvaluator(memberAccessors: [MemberAccessor.mapAccessor]);
 
         final context = {
           'x': {'y': 1, 'z': 2}

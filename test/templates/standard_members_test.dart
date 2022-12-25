@@ -21,7 +21,7 @@ void main() {
 
   group('Codex', () {
     test('base64', () {
-      final input =
+      const input =
           r'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=`~!@#$%^&*()_+[]{},./<>?;:"\|';
       var template = Template(
         value: r'${utf8.decode(base64.decode(input))}',
@@ -45,7 +45,7 @@ void main() {
     });
 
     test('base64url', () {
-      final input =
+      const input =
           r'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=`~!@#$%^&*()_+[]{},./<>?;:"\|';
       var template = Template(
         value: r'${utf8.decode(base64url.decode(input))}',
@@ -82,7 +82,7 @@ void main() {
     });
 
     test('json', () {
-      final input = '{"foo":"bar"}';
+      const input = '{"foo":"bar"}';
 
       final template = Template(
         value: r'${json.encode(json.decode(input))}',
@@ -170,6 +170,8 @@ void main() {
       );
     });
   });
+
+  group('Logger', () {});
 
   group('Map', () {
     test('toJson', () {

@@ -5,6 +5,7 @@ import 'package:convert/convert.dart';
 import 'package:intl/intl.dart';
 import 'package:json_class/json_class.dart';
 import 'package:json_path/json_path.dart';
+import 'package:logging/logging.dart';
 import 'package:template_expressions/template_expressions.dart';
 import 'package:yaon/yaon.dart' as yaon;
 
@@ -27,6 +28,8 @@ dynamic lookupStandardMembers(dynamic target, String name) {
     result = _processJsonPath(target, name);
   } else if (target is JsonPathMatch) {
     result = _processJsonPathMatch(target, name);
+  } else if (target is Logger) {
+    result = _processLogger(target, name);
   } else if (target is Map) {
     result = _processMap(target, name);
   } else if (target is MapEntry) {
@@ -406,6 +409,46 @@ dynamic _processList(List target, String name) {
     } else if (target is Uint8List) {
       result = _processIntList(target.toList(), name);
     }
+  }
+
+  return result;
+}
+
+dynamic _processLogger(Logger target, String name) {
+  dynamic result;
+
+  switch (name) {
+    case 'finest':
+      result = target.finest;
+      break;
+
+    case 'finer':
+      result = target.finer;
+      break;
+
+    case 'fine':
+      result = target.fine;
+      break;
+
+    case 'config':
+      result = target.config;
+      break;
+
+    case 'info':
+      result = target.info;
+      break;
+
+    case 'warning':
+      result = target.warning;
+      break;
+
+    case 'severe':
+      result = target.severe;
+      break;
+
+    case 'shout':
+      result = target.shout;
+      break;
   }
 
   return result;
