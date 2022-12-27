@@ -1,3 +1,8 @@
+## [2.1.0+1] - December 27, 2022
+
+* Automated dependency updates
+
+
 ## [2.1.0] - December 25th, 2022
 
 * Assed `CustomizableMemberAccessor`
@@ -146,6 +151,7 @@
 ## [1.0.0] - February 26th, 2022
 
 * Initial Release
+
 
 
 
