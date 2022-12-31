@@ -15,6 +15,83 @@ class Template {
   final List<ExpressionSyntax> _syntax;
   final String _value;
 
+  /// Evaluates the template into a dynamic result.  This only supports a single
+  /// template expression and will throw an exception if there is more than one.
+  dynamic evaluate({
+    Map<dynamic, dynamic> context = const {},
+    List<MemberAccessor<dynamic>> memberAccessors = const [],
+  }) {
+    final ctx = <String, Object>{};
+    for (var entry in context.entries) {
+      if (entry.key != null && entry.value != null) {
+        ctx[entry.key.toString()] = entry.value;
+      }
+    }
+
+    final prepared = _prepare();
+    dynamic result = prepared.data;
+
+    if (prepared.entries.isNotEmpty) {
+      if (prepared.entries.length > 1) {
+        throw Exception(
+          'The [evaluate] function only supports a single template expression but [${prepared.entries.length}] were found.',
+        );
+      } else {
+        final evaluator = ExpressionEvaluator(
+          memberAccessors: memberAccessors,
+        );
+
+        result = evaluator.eval(
+          Expression.parse(prepared.entries.first.content),
+          ctx,
+        );
+      }
+    }
+
+    return result;
+  }
+
+  /// Evaluates the template into a dynamic result asynchronously.  This only
+  /// supports a single template expression and will throw an exception if there
+  /// is more than one.
+  Future<dynamic> evaluateAsync({
+    Map<dynamic, dynamic> context = const {},
+    List<MemberAccessor<dynamic>> memberAccessors = const [],
+  }) async {
+    final ctx = <String, Object>{};
+    for (var entry in context.entries) {
+      if (entry.key != null && entry.value != null) {
+        ctx[entry.key.toString()] = entry.value;
+      }
+    }
+
+    final prepared = _prepare();
+    dynamic result = prepared.data;
+
+    if (prepared.entries.isNotEmpty) {
+      if (prepared.entries.length > 1) {
+        throw Exception(
+          'The [evaluate] function only supports a single template expression but [${prepared.entries.length}] were found.',
+        );
+      } else {
+        final evaluator = ExpressionEvaluator.async(
+          memberAccessors: memberAccessors,
+        );
+
+        result = await evaluator
+            .eval(
+              Expression.parse(prepared.entries.first.content),
+              ctx,
+            )
+            .first;
+      }
+    }
+
+    return result;
+  }
+
+  /// Evaluates the template into a string result.  The template may have
+  /// multiple expressions which will be concatenated into the returned value.
   String process({
     Map<dynamic, dynamic> context = const {},
     List<MemberAccessor<dynamic>> memberAccessors = const [],
@@ -48,6 +125,9 @@ class Template {
     return data;
   }
 
+  /// Evaluates the template into a string result asynchronously.  The template
+  /// may have multiple expressions which will be concatenated into the returned
+  /// value.
   Future<String> processAsync({
     Map<dynamic, dynamic> context = const {},
     List<MemberAccessor<dynamic>> memberAccessors = const [],
