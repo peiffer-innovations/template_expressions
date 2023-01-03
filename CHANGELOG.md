@@ -1,3 +1,8 @@
+## [2.2.0+1] - January 3, 2023
+
+* Automated dependency updates
+
+
 ## [2.2.0] - December 31st, 2022
 
 * Added `evaluate` and `evaluateAsync` to evaluate a template into a dynamic result rather than a string one
@@ -156,6 +161,7 @@
 ## [1.0.0] - February 26th, 2022
 
 * Initial Release
+
 
 
 
