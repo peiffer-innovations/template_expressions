@@ -1,3 +1,10 @@
+## [2.2.2] - March 13th, 2023
+
+* Locked `petitparser` to 5.1.0 until one of these is actually result:
+    * https://github.com/flutter/flutter/issues/121391
+    * https://github.com/petitparser/dart-petitparser/issues/144
+
+
 ## [2.2.1+4] - March 7, 2023
 
 * Automated dependency updates
