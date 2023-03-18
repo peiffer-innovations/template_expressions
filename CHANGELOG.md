@@ -1,6 +1,11 @@
+## [2.2.3] - March 18th, 2023
+
+* Locked `json_path` to 0.4.2 because 0.4.3 requires `petitparser` 5.2.0 or above and... the petitparser issue below remains.
+
+
 ## [2.2.2] - March 13th, 2023
 
-* Locked `petitparser` to 5.1.0 until one of these is actually result:
+* Locked `petitparser` to 5.1.0 until one of these is actually resolved:
     * https://github.com/flutter/flutter/issues/121391
     * https://github.com/petitparser/dart-petitparser/issues/144
 
