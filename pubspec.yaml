@@ -1,7 +1,7 @@
 name: 'template_expressions'
 description: 'A Dart library to process string based templates using expressions.'
 homepage: 'https://github.com/peiffer-innovations/template_expressions'
-version: '2.2.3'
+version: '2.2.3+1'
 
 environment:
   sdk: '>=2.19.0 <4.0.0'
@@ -13,11 +13,7 @@ dependencies:
   fake_async: '^1.3.0'
   intl: '^0.18.0'
   json_class: '^2.1.6+1'
-  # Locked because json_path depends on breaking changes in petitparser from
-  # 5.2.0+ and that cannot be upgrade until the following issues are resolved:
-  #   -- https://github.com/flutter/flutter/issues/121391
-  #   -- https://github.com/petitparser/dart-petitparser/issues/144
-  json_path: 0.4.2
+  json_path: '^0.4.4'
   logging: '^1.1.1'
   meta: '^1.8.0'
   # Locked until one of these two issues is actually resolved as opposed to

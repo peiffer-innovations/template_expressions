@@ -1,3 +1,8 @@
+## [2.2.3+1] - March 19th, 2023
+
+* Upgraded to `json_path` to 0.4.4 which resolved the `petitparser` issue.
+
+
 ## [2.2.3] - March 18th, 2023
 
 * Locked `json_path` to 0.4.2 because 0.4.3 requires `petitparser` 5.2.0 or above and... the petitparser issue below remains.
