@@ -1,3 +1,8 @@
+## [2.2.3+2] - March 21, 2023
+
+* Automated dependency updates
+
+
 ## [2.2.3+1] - March 19th, 2023
 
 * Upgraded to `json_path` to 0.4.4 which resolved the `petitparser` issue.
@@ -208,6 +213,7 @@
 ## [1.0.0] - February 26th, 2022
 
 * Initial Release
+
 
 
 
