@@ -1,3 +1,8 @@
+## [3.0.0+1] - April 3, 2023
+
+* Automated dependency updates
+
+
 ## [3.0.0] - April 3rd, 2023
 
 * **BREAKING CHANGE**: Updated to `json_path` 0.5 which removes the `parent` attribute from `JsonPathMatch`.
@@ -218,6 +223,7 @@
 ## [1.0.0] - February 26th, 2022
 
 * Initial Release
+
 
 
 
