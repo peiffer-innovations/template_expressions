@@ -346,10 +346,6 @@ dynamic _processJsonPathMatch(JsonPathMatch target, String name) {
   dynamic result;
 
   switch (name) {
-    case 'parent':
-      result = target.parent;
-      break;
-
     case 'path':
       result = target.path;
       break;
