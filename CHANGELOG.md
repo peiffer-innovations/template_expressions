@@ -1,3 +1,8 @@
+## [3.0.0+6] - May 2nd, 2023
+
+* Locked `json_path` version due to breaking change with `petitparser`.
+
+
 ## [3.0.0+5] - April 25, 2023
 
 * Automated dependency updates
