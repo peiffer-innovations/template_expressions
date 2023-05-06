@@ -174,6 +174,22 @@ void main() {
   group('Logger', () {});
 
   group('Map', () {
+    test('entries', () {
+      final context = {
+        'input': {
+          'name': {
+            'first': 'John',
+            'last': 'Smith',
+          },
+        },
+      };
+      expect(
+        Template(value: r'${input.entries}').evaluate(context: context)
+            is Iterable,
+        true,
+      );
+    });
+
     test('toJson', () {
       final context = {
         'input': {

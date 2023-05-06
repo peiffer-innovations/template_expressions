@@ -462,6 +462,10 @@ dynamic _processMap(Map target, String name) {
       result = target.containsKey;
       break;
 
+    case 'entries':
+      result = target.entries;
+      break;
+
     case 'keys':
       result = target.keys;
       break;

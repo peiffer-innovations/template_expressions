@@ -1,3 +1,8 @@
+## [3.0.1] - May 6th, 2023
+
+* Added `entries` to the standard members for `Map`.
+
+
 ## [3.0.0+6] - May 2nd, 2023
 
 * Locked `json_path` version due to breaking change with `petitparser`.
