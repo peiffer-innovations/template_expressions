@@ -1,3 +1,8 @@
+## [3.0.2] - May 8th, 2023
+
+* Removed Map member accessor and made it the default for a Map.
+
+
 ## [3.0.1] - May 6th, 2023
 
 * Added `entries` to the standard members for `Map`.

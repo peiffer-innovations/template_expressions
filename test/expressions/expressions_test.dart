@@ -496,8 +496,7 @@ void main() {
       });
 
       test('Map members', () {
-        const evaluator =
-            ExpressionEvaluator(memberAccessors: [MemberAccessor.mapAccessor]);
+        const evaluator = ExpressionEvaluator();
 
         final context = {
           'x': {'y': 1, 'z': 2}

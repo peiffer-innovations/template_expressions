@@ -433,11 +433,6 @@ abstract class MemberAccessor<T> {
   const factory MemberAccessor.fallback(AnyMemberAccessor<T> accessor) =
       _MemberAccessorFallback;
 
-  static const MemberAccessor<Map> mapAccessor =
-      MemberAccessor<Map>.fallback(_getMapItem);
-
-  static dynamic _getMapItem(Map map, String key) => map[key];
-
   dynamic getMember(T object, String member);
 
   bool canHandle(dynamic object, String member);

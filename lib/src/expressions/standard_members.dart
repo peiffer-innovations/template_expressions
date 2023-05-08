@@ -499,6 +499,9 @@ dynamic _processMap(Map target, String name) {
     case 'values':
       result = target.values;
       break;
+
+    default:
+      result = target[name];
   }
 
   return result;
