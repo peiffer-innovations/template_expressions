@@ -1,3 +1,8 @@
+## [3.0.2+1] - May 9, 2023
+
+* Automated dependency updates
+
+
 ## [3.0.2] - May 8th, 2023
 
 * Removed Map member accessor and made it the default for a Map.
@@ -258,6 +263,7 @@
 ## [1.0.0] - February 26th, 2022
 
 * Initial Release
+
 
 
 
