@@ -12,6 +12,26 @@ void main() {
       },
     };
 
+    test('nullable call', () {
+      final template = Template(
+        value: r'${map.isNotEmpty == true ? "notEmpty": "empty"}',
+      );
+      expect(
+        template.process(context: context),
+        'empty',
+      );
+    });
+
+    test('nullable evaluation', () {
+      final template = Template(
+        value: r'${map.isNotEmpty ? "notEmpty": "empty"}',
+      );
+      expect(
+        template.process(context: context),
+        'empty',
+      );
+    });
+
     test('nullable map', () {
       final template = Template(
         value: r'${map["foo"].isNotEmpty}',
