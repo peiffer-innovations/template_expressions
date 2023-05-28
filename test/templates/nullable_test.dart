@@ -12,6 +12,30 @@ void main() {
       },
     };
 
+    test('null check', () {
+      var template = Template(
+        value: r'${foo != null ? "notNull": "null"}',
+      );
+      // expect(
+      //   template.process(context: context),
+      //   'null',
+      // );
+      template = Template(
+        value: r'${foo != null}',
+      );
+      expect(
+        template.evaluate(context: context),
+        false,
+      );
+      template = Template(
+        value: r'${foo == null}',
+      );
+      expect(
+        template.evaluate(context: context),
+        true,
+      );
+    });
+
     test('nullable call', () {
       final template = Template(
         value: r'${map.isNotEmpty == true ? "notEmpty": "empty"}',
