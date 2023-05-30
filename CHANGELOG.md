@@ -1,3 +1,8 @@
+## [3.0.4+1] - May 30, 2023
+
+* Automated dependency updates
+
+
 ## [3.0.4] - May 24, 2023
 
 * Fix to have bool expressions via the `? :` mechanisms evaluate null as false rather than crash.
@@ -283,6 +288,7 @@
 ## [1.0.0] - February 26th, 2022
 
 * Initial Release
+
 
 
 
