@@ -44,6 +44,7 @@ void main() {
         '"qf sf q"',
         '"qfqsd\'qsfd"',
         '"qsdf\\tqs\\"qsdf"',
+        r'"\\"',
       ]) {
         final w = parser.stringLiteral.end().parse(v);
         expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
@@ -434,6 +435,17 @@ void main() {
 
       expressions.forEach((e, r) {
         expect(evaluator.eval(Expression.parse(e), context), r);
+      });
+    });
+
+    test('truncating division', () {
+      final expressions = {
+        '7 ~/ 3': 2,
+        '7.5 ~/ 3.1': 2,
+      };
+
+      expressions.forEach((e, r) {
+        expect(evaluator.eval(Expression.parse(e), const {}), r);
       });
     });
 

@@ -337,6 +337,10 @@ class ExpressionEvaluator {
         result = left % right();
         break;
 
+      case '~/':
+        result = left ~/ right();
+        break;
+
       case '??':
         result = left ?? right();
         break;

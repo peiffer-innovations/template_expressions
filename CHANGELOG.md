@@ -1,3 +1,8 @@
+## [3.0.5] - June 3rd, 2023
+
+* Bug fixes
+
+
 ## [3.0.4+1] - May 30, 2023
 
 * Automated dependency updates
