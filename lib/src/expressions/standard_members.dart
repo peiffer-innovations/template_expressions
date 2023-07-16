@@ -141,7 +141,7 @@ dynamic _processDateTime(DateTime target, String name) {
             target.millisecondsSinceEpoch +
                 ((duration is Duration)
                     ? duration.inMilliseconds
-                    : JsonClass.parseInt(duration)!),
+                    : JsonClass.maybeParseInt(duration)!),
             isUtc: target.isUtc,
           );
       break;
@@ -170,7 +170,7 @@ dynamic _processDateTime(DateTime target, String name) {
       result = (duration) => target.subtract(
             duration is Duration
                 ? duration
-                : Duration(milliseconds: JsonClass.parseInt(duration)!),
+                : Duration(milliseconds: JsonClass.maybeParseInt(duration)!),
           );
       break;
 
@@ -198,7 +198,7 @@ dynamic _processDuration(Duration target, String name) {
           target.inMilliseconds +
           (duration is Duration
               ? duration.inMilliseconds
-              : JsonClass.parseInt(duration)!);
+              : JsonClass.maybeParseInt(duration)!);
       break;
 
     case 'compareTo':
@@ -230,7 +230,7 @@ dynamic _processDuration(Duration target, String name) {
             milliseconds: target.inMilliseconds -
                 (duration is Duration
                     ? duration.inMilliseconds
-                    : JsonClass.parseInt(duration)!),
+                    : JsonClass.maybeParseInt(duration)!),
           );
       break;
   }
@@ -390,7 +390,7 @@ dynamic _processList(List target, String name) {
 
     case 'toJson':
       result = ([padding]) {
-        final indent = JsonClass.parseInt(padding) ?? 0;
+        final indent = JsonClass.maybeParseInt(padding) ?? 0;
 
         return indent == 0
             ? json.encode(target)
@@ -488,7 +488,7 @@ dynamic _processMap(Map target, String name) {
 
     case 'toJson':
       result = ([padding]) {
-        final indent = JsonClass.parseInt(padding) ?? 0;
+        final indent = JsonClass.maybeParseInt(padding) ?? 0;
 
         return indent == 0
             ? json.encode(target)

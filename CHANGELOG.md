@@ -1,3 +1,8 @@
+## [3.1.0] - July 16th, 2023
+
+* Updated to json_class 3.0.0
+
+
 ## [3.0.6+2] - July 4, 2023
 
 * Automated dependency updates

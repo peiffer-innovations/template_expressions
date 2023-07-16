@@ -14,51 +14,51 @@ class DateTimeFunctions {
                 second != null ||
                 millisecond != null)
             ? DateTime(
-                JsonClass.parseInt(value) ?? 0,
-                JsonClass.parseInt(month) ?? 1,
-                JsonClass.parseInt(date) ?? 1,
-                JsonClass.parseInt(hour) ?? 0,
-                JsonClass.parseInt(minute) ?? 0,
-                JsonClass.parseInt(second) ?? 0,
-                JsonClass.parseInt(millisecond) ?? 0,
+                JsonClass.maybeParseInt(value) ?? 0,
+                JsonClass.maybeParseInt(month) ?? 1,
+                JsonClass.maybeParseInt(date) ?? 1,
+                JsonClass.maybeParseInt(hour) ?? 0,
+                JsonClass.maybeParseInt(minute) ?? 0,
+                JsonClass.maybeParseInt(second) ?? 0,
+                JsonClass.maybeParseInt(millisecond) ?? 0,
               )
             : value is Map
                 ? DateTime(
-                    JsonClass.parseInt(value['year']) ?? 0,
-                    JsonClass.parseInt(value['month']) ?? 1,
-                    JsonClass.parseInt(value['date'] ?? value['day']) ?? 1,
-                    JsonClass.parseInt(value['hour']) ?? 0,
-                    JsonClass.parseInt(value['minute']) ?? 0,
-                    JsonClass.parseInt(value['second']) ?? 0,
-                    JsonClass.parseInt(value['milliseconds']) ?? 0,
+                    JsonClass.maybeParseInt(value['year']) ?? 0,
+                    JsonClass.maybeParseInt(value['month']) ?? 1,
+                    JsonClass.maybeParseInt(value['date'] ?? value['day']) ?? 1,
+                    JsonClass.maybeParseInt(value['hour']) ?? 0,
+                    JsonClass.maybeParseInt(value['minute']) ?? 0,
+                    JsonClass.maybeParseInt(value['second']) ?? 0,
+                    JsonClass.maybeParseInt(value['milliseconds']) ?? 0,
                   )
                 : value is List
                     ? DateTime(
-                        JsonClass.parseInt(
+                        JsonClass.maybeParseInt(
                                 value.isNotEmpty ? value[0] : null) ??
                             0,
-                        JsonClass.parseInt(
+                        JsonClass.maybeParseInt(
                                 value.length > 1 ? value[1] : null) ??
                             1,
-                        JsonClass.parseInt(
+                        JsonClass.maybeParseInt(
                                 value.length > 2 ? value[2] : null) ??
                             1,
-                        JsonClass.parseInt(
+                        JsonClass.maybeParseInt(
                                 value.length > 3 ? value[3] : null) ??
                             0,
-                        JsonClass.parseInt(
+                        JsonClass.maybeParseInt(
                                 value.length > 4 ? value[4] : null) ??
                             0,
-                        JsonClass.parseInt(
+                        JsonClass.maybeParseInt(
                                 value.length > 5 ? value[5] : null) ??
                             0,
-                        JsonClass.parseInt(
+                        JsonClass.maybeParseInt(
                                 value.length > 6 ? value[6] : null) ??
                             0,
                       )
                     : (value is num || value is String)
                         ? DateTime.fromMillisecondsSinceEpoch(
-                            JsonClass.parseInt(value) ?? 0)
+                            JsonClass.maybeParseInt(value) ?? 0)
                         : value == null
                             ? DateTime.now()
                             : throw Exception(
