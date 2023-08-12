@@ -302,10 +302,15 @@ void main() {
     });
 
     test('string concat', () {
-      final context = {'a': 'alice', 'b': 'bob'};
+      final context = {
+        'a': 'alice',
+        'b': 'bob',
+        'first_name': 'John',
+      };
       final expressions = {
         'a + b': 'alicebob',
         'a + " " + b': 'alice bob',
+        "'Welcome: ' + first_name + '!'": 'Welcome: John!',
       };
 
       expressions.forEach((e, r) {

@@ -13,14 +13,14 @@ class FutureFunctions {
     'delay': (value) => value is Duration
         ? Future.delayed(value)
         : value is String || value is num
-            ? Future.delayed(JsonClass.parseDurationFromMillis(value)!)
+            ? Future.delayed(JsonClass.parseDurationFromMillis(value))
             : throw Exception(
                 '[delay]: expected [value] to be a Duration, a String, or a num but encountered: ${value?.runtimeType}',
               ),
     'delayed': (value) => value is Duration
         ? Future.delayed(value)
         : value is String || value is num
-            ? Future.delayed(JsonClass.parseDurationFromMillis(value)!)
+            ? Future.delayed(JsonClass.parseDurationFromMillis(value))
             : throw Exception(
                 '[delayed]: expected [value] to be a Duration, a String, or a num but encountered: ${value?.runtimeType}',
               ),
