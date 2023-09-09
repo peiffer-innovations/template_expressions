@@ -1,3 +1,10 @@
+## [3.1.2] - September 9th, 2023
+
+* Fix compatibility with `flutter_test` (really wish they wouldn't pin exact versions)
+    * Revert `petititparser` to `5.4.0`
+    * Revert `json_path` to `0.6.3`
+
+
 ## [3.1.1+3] - September 5, 2023
 
 * Automated dependency updates
