@@ -1,3 +1,8 @@
+## [3.1.2+1] - September 19, 2023
+
+* Automated dependency updates
+
+
 ## [3.1.2] - September 9th, 2023
 
 * Fix compatibility with `flutter_test` (really wish they wouldn't pin exact versions)
@@ -340,6 +345,7 @@
 ## [1.0.0] - February 26th, 2022
 
 * Initial Release
+
 
 
 
