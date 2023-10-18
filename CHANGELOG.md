@@ -1,3 +1,8 @@
+## [3.1.4] - October 18th, 2023
+
+* Fix for some minor analysis issues
+
+
 ## [3.1.2+3] - October 17, 2023
 
 * Automated dependency updates

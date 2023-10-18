@@ -15,14 +15,14 @@ void main() {
       }
 
       for (var v in ['1', '-qdf', '.sfd']) {
-        expect(parser.identifier.end().parse(v).isSuccess, isFalse);
+        expect(parser.identifier.end().parse(v) is Success, isFalse);
       }
     });
 
     test('numeric literal', () {
       for (var v in ['134', '.5', '43.2', '1e3', '1E-3', '1e+0', '0x01']) {
         final w = parser.numericLiteral.end().parse(v);
-        expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
+        expect(w is Success, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, num.parse(v));
         expect(w.value.raw, v);
       }
@@ -32,7 +32,7 @@ void main() {
         '.5.4',
         '1e5E3',
       ]) {
-        expect(parser.numericLiteral.end().parse(v).isSuccess, isFalse);
+        expect(parser.numericLiteral.end().parse(v) is Success, isFalse);
       }
     });
 
@@ -47,7 +47,7 @@ void main() {
         r'"\\"',
       ]) {
         final w = parser.stringLiteral.end().parse(v);
-        expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
+        expect(w is Success, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, parser.unescape(v.substring(1, v.length - 1)));
         expect(w.value.raw, v);
       }
@@ -56,39 +56,39 @@ void main() {
         "sd'<sdf'",
         "'df'sdf'",
       ]) {
-        expect(parser.stringLiteral.end().parse(v).isSuccess, isFalse);
+        expect(parser.stringLiteral.end().parse(v) is Success, isFalse);
       }
     });
     test('bool literal', () {
       for (var v in <String>['true', 'false']) {
         final w = parser.boolLiteral.end().parse(v);
-        expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
+        expect(w is Success, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, v == 'true');
         expect(w.value.raw, v);
       }
 
       for (var v in ['True', 'False']) {
-        expect(parser.boolLiteral.end().parse(v).isSuccess, isFalse);
+        expect(parser.boolLiteral.end().parse(v) is Success, isFalse);
       }
     });
 
     test('null literal', () {
       for (var v in <String>['null']) {
         final w = parser.nullLiteral.end().parse(v);
-        expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
+        expect(w is Success, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, isNull);
         expect(w.value.raw, v);
       }
 
       for (var v in ['NULL']) {
-        expect(parser.nullLiteral.end().parse(v).isSuccess, isFalse);
+        expect(parser.nullLiteral.end().parse(v) is Success, isFalse);
       }
     });
 
     test('this literal', () {
       for (var v in <String>['this']) {
         final w = parser.thisExpression.end().parse(v);
-        expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
+        expect(w is Success, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value, isA<ThisExpression>());
       }
     });
@@ -103,7 +103,7 @@ void main() {
       }.entries) {
         final v = e.key;
         final w = parser.mapLiteral.end().parse(v);
-        expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
+        expect(w is Success, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, e.value);
         expect(w.value.raw, v);
       }
@@ -116,13 +116,13 @@ void main() {
       }.entries) {
         final v = e.key;
         final w = parser.arrayLiteral.end().parse(v);
-        expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
+        expect(w is Success, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.value, e.value);
         expect(w.value.raw, v);
       }
 
       for (var v in ['[1,2[']) {
-        expect(parser.arrayLiteral.end().parse(v).isSuccess, isFalse);
+        expect(parser.arrayLiteral.end().parse(v) is Success, isFalse);
       }
     });
 
@@ -141,7 +141,7 @@ void main() {
         '(a%2)'
       ]) {
         final w = parser.token.end().parse(v);
-        expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
+        expect(w is Success, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.toTokenString(), v);
       }
     });
@@ -155,7 +155,7 @@ void main() {
         '1+4-5%2*5<4==(2+1)*1<=2&&2||2'
       ]) {
         final w = parser.binaryExpression.end().parse(v);
-        expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
+        expect(w is Success, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.toString(), v);
       }
     });
@@ -163,7 +163,7 @@ void main() {
     test('unary expression', () {
       for (var v in <String>['+1', '-a', '!true', '~0x01']) {
         final w = parser.unaryExpression.end().parse(v);
-        expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
+        expect(w is Success, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.toString(), v);
       }
     });
@@ -171,7 +171,7 @@ void main() {
     test('conditional expression', () {
       for (var v in <String>["1<2 ? 'always' : 'never'"]) {
         final w = parser.expression.end().parse(v);
-        expect(w.isSuccess, isTrue, reason: 'Failed parsing `$v`');
+        expect(w is Success, isTrue, reason: 'Failed parsing `$v`');
         expect(w.value.toString(), v);
       }
     });

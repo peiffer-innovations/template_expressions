@@ -276,7 +276,7 @@ class SeparatedListParser<T, R> extends DelegateParser<T, List<R>> {
   @override
   Result<List<R>> parseOn(Context context) {
     final result = delegate.parseOn(context);
-    if (result.isSuccess) {
+    if (result is Success) {
       return result.success((result.value as SeparatedList).elements.cast<R>());
     } else {
       return result.failure(result.message);
@@ -297,7 +297,7 @@ class WithSeparatorListParser<T, R> extends DelegateParser<T, List<R>> {
   @override
   Result<List<R>> parseOn(Context context) {
     final result = delegate.parseOn(context);
-    if (result.isSuccess) {
+    if (result is Success) {
       return result.success(
           (result.value as SeparatedList).sequential.toList().cast<R>());
     } else {
