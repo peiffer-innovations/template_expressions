@@ -1,5 +1,6 @@
 /// Credit to much of the code in this file goes to:
 /// https://github.com/Vanethos/flutter_rsa_generator_example/blob/master/lib/utils/rsa_key_helper.dart
+library;
 
 import 'dart:convert';
 import 'dart:io';

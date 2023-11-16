@@ -19,9 +19,7 @@ Literal _asLiteral(v) {
 }
 
 class AsyncExpressionEvaluator extends ExpressionEvaluator {
-  const AsyncExpressionEvaluator(
-      {List<MemberAccessor> memberAccessors = const []})
-      : super(memberAccessors: memberAccessors);
+  const AsyncExpressionEvaluator({super.memberAccessors});
 
   final ExpressionEvaluator baseEvaluator = const ExpressionEvaluator();
 
