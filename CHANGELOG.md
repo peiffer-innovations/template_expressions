@@ -1,3 +1,8 @@
+## [3.2.0] - February 28th, 2024
+
+* Widened [json_path](https://pub.dev/packages/json_path) version support
+
+
 ## [3.1.6] - February 20th, 2024
 
 * Automated dependency updates
