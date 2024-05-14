@@ -1,7 +1,7 @@
 name: 'template_expressions'
 description: 'A Dart library to process string based templates using expressions.'
 homepage: 'https://github.com/peiffer-innovations/template_expressions'
-version: '3.2.0+6'
+version: '3.2.0+7'
 
 environment: 
   sdk: '>=3.0.0 <4.0.0'
@@ -17,13 +17,13 @@ dependencies:
   logging: '^1.2.0'
   meta: '^1.10.0'
   petitparser: '^6.0.1'
-  pointycastle: '^3.9.0'
+  pointycastle: '^3.9.1'
   quiver: '^3.2.1'
   rxdart: '^0.27.7'
-  yaon: '^1.1.4+9'
+  yaon: '^1.1.4+10'
 
 dev_dependencies: 
-  flutter_lints: '^3.0.2'
+  flutter_lints: '^4.0.0'
   test: '^1.25.5'
 
 ignore_updates: 
