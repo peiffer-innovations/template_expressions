@@ -1,4 +1,4 @@
-library expressions.evaluator;
+library;
 
 import 'package:json_class/json_class.dart';
 import 'package:logging/logging.dart';
