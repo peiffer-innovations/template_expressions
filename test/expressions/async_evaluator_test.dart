@@ -121,19 +121,23 @@ void main() {
         stream.listen((v) => current = v, onDone: () => done = true);
 
         controllerX.add(40);
-        async.flushMicrotasks();
+        // async.flushMicrotasks();
+        await async.unblock();
         expect(current, null);
 
         controllerY.add(60);
-        async.flushMicrotasks();
+        // async.flushMicrotasks();
+        await async.unblock();
         expect(current, false);
 
         controllerY.add(20);
-        async.flushMicrotasks();
+        // async.flushMicrotasks();
+        await async.unblock();
         expect(current, true);
 
         controllerX.add(10);
-        async.flushMicrotasks();
+        // async.flushMicrotasks();
+        await async.unblock();
         expect(current, false);
 
         await async.flushMicrotasksUntil(controllerX.close());
@@ -276,30 +280,39 @@ void main() {
 
         dynamic current;
         var done = false;
-        stream.listen((v) => current = v, onDone: () => done = true);
+        stream.listen(
+          (v) => current = v,
+          onDone: () => done = true,
+        );
 
         controllerX.add('y');
-        async.flushMicrotasks();
+        // async.flushMicrotasks();
+        await async.unblock();
         expect(current, null);
 
         controllerY.add(1);
-        async.flushMicrotasks();
+        // async.flushMicrotasks();
+        await async.unblock();
         expect(current, 1);
 
         controllerX.add('z');
-        async.flushMicrotasks();
+        // async.flushMicrotasks();
+        await async.unblock();
         expect(current, 1);
 
         controllerZ.add(2);
-        async.flushMicrotasks();
+        // async.flushMicrotasks();
+        await async.unblock();
         expect(current, 2);
 
         controllerY.add(3);
-        async.flushMicrotasks();
+        // async.flushMicrotasks();
+        await async.unblock();
         expect(current, 2);
 
         controllerZ.add(4);
-        async.flushMicrotasks();
+        // async.flushMicrotasks();
+        await async.unblock();
         expect(current, 4);
 
         await async.flushMicrotasksUntil(controllerX.close());
@@ -400,8 +413,9 @@ void main() {
 }
 
 FutureOr<T> fakeAsync<T>(
-    FutureOr<T> Function(fake_async.FakeAsync async) callback,
-    {DateTime? initialTime}) {
+  FutureOr<T> Function(fake_async.FakeAsync async) callback, {
+  DateTime? initialTime,
+}) {
   final async = fake_async.FakeAsync(initialTime: initialTime);
   final f = async.run(callback);
   if (f is Future<T>) {
@@ -414,7 +428,8 @@ extension FakeAsyncX on fake_async.FakeAsync {
   Future<T> flushMicrotasksUntil<T>(Future<T> f) async {
     var isDone = false;
     f = f.whenComplete(
-        () => isDone = true); // check if all work in body has been done
+      () => isDone = true,
+    ); // check if all work in body has been done
     while (!isDone) {
       // flush the microtasks in real async zone
       await unblock();
