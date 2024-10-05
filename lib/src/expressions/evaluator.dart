@@ -20,6 +20,7 @@ export 'functions/duration_functions.dart';
 export 'functions/encrypt_functions.dart';
 export 'functions/future_functions.dart';
 export 'functions/json_path_functions.dart';
+export 'functions/number_functions.dart';
 export 'functions/random_functions.dart';
 
 /// Handles evaluation of expressions
@@ -76,6 +77,7 @@ class ExpressionEvaluator {
     ...EncryptFunctions.functions,
     ...FutureFunctions.functions,
     ...JsonPathFunctions.functions,
+    ...NumberFunctions.functions,
     ...RandomFunctions.functions,
   };
 

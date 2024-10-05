@@ -34,6 +34,8 @@ dynamic lookupStandardMembers(dynamic target, String name) {
     result = _processMap(target, name);
   } else if (target is MapEntry) {
     result = _processMapEntry(target, name);
+  } else if (target is NumberFormat) {
+    result = _processNumberFormat(target, name);
   } else if (target is double || target is int || target is num) {
     result = _processNum(target, name);
   } else if (target is String) {
@@ -148,6 +150,10 @@ dynamic _processDateTime(DateTime target, String name) {
 
     case 'compareTo':
       result = target.compareTo;
+      break;
+
+    case 'format':
+      result = (pattern) => DateFormat(pattern).format(target);
       break;
 
     case 'isAfter':
@@ -555,6 +561,10 @@ dynamic _processNum(num target, String name) {
       result = target.floorToDouble;
       break;
 
+    case 'format':
+      result = (format) => NumberFormat(format).format(target);
+      break;
+
     case 'isFinite':
       result = target.isFinite;
       break;
@@ -613,6 +623,21 @@ dynamic _processNum(num target, String name) {
 
     case 'truncateToDouble':
       result = target.truncateToDouble;
+      break;
+  }
+
+  return result;
+}
+
+dynamic _processNumberFormat(NumberFormat target, String name) {
+  dynamic result;
+  switch (name) {
+    case 'format':
+      result = target.format;
+      break;
+
+    case 'parse':
+      result = target.parse;
       break;
   }
 
@@ -727,8 +752,20 @@ dynamic _processString(String target, String name) {
       result = target.substring;
       break;
 
+    case 'toBool':
+      result = target.toLowerCase() == 'true';
+      break;
+
     case 'toLowerCase':
       result = target.toLowerCase;
+      break;
+
+    case 'toDouble':
+      result = double.tryParse(target);
+      break;
+
+    case 'toInt':
+      result = int.tryParse(target);
       break;
 
     case 'toUpperCase':

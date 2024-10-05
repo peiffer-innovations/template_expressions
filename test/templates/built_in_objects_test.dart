@@ -178,6 +178,14 @@ void main() {
         template.process(context: context),
         '2022-02-07',
       );
+
+      template = Template(
+        value: r'${DateTime([2022, 02, 07]).format("yyyy-MM-dd")}',
+      );
+      expect(
+        template.process(context: context),
+        '2022-02-07',
+      );
     });
 
     test('now', () {
@@ -378,6 +386,56 @@ void main() {
           context: {'input': utf8.encode(input)},
         ),
         input,
+      );
+    });
+  });
+
+  group('NumberFormat', () {
+    test('format', () {
+      expect(
+        Template(value: r'${NumberFormat("#,###.00").format(x)}')
+            .process(context: {
+          'x': 1234,
+        }),
+        '1,234.00',
+      );
+      expect(
+        Template(value: r'${NumberFormat("#,###.00").format(x)}')
+            .process(context: {
+          'x': 1234.0,
+        }),
+        '1,234.00',
+      );
+      expect(
+        Template(value: r'${x.format("#,###.00")}').process(context: {
+          'x': 1234.0,
+        }),
+        '1,234.00',
+      );
+      expect(
+        Template(value: r'${x.format("#,###.00")}').process(context: {
+          'x': 1234,
+        }),
+        '1,234.00',
+      );
+    });
+
+    test('parse', () {
+      expect(
+        Template(value: r'${x.toInt()}').process(context: {'x': '1234.45'}),
+        1234,
+      );
+      expect(
+        Template(value: r'${x.toDouble()}').process(context: {'x': '1234.45'}),
+        1234.45,
+      );
+      expect(
+        Template(value: r'${x.toInt()}').process(context: {'x': 'foo'}),
+        '',
+      );
+      expect(
+        Template(value: r'${x.toDouble()}').process(context: {'x': 'foo'}),
+        '',
       );
     });
   });
