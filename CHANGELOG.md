@@ -3,6 +3,8 @@
 * Adds `path` to `Map`, `List`, and `String` objects to find the json path value.
 * Adds `NumberFormat` as an option
 * Adds `format` to all `num` types to apply the `NumberFormat` pattern.
+* Adds `format` to `DateTime` to simplify applying a Date / Time formatter to them.
+
 
 ## [3.2.0+9] - June 11, 2024
 

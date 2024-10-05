@@ -240,6 +240,7 @@ DateTime(List<int> yearMonthDateHourMinuteSecondMillisecond)
 | [add](https://api.flutter.dev/flutter/dart-core/DateTime/add.html) | `${now().add(minutes(5))}` |
 | add(int millis) | `${now().add(30000)}` |
 | [compareTo](https://api.flutter.dev/flutter/dart-core/DateTime/compareTo.html) | `${now().compareTo(other)}` | 
+| format(String pattern) | `${now().format('yyyy-MM-dd')}
 | [isAfter](https://api.flutter.dev/flutter/dart-core/DateTime/isAfter.html) | `${now().isAfter(other)}` |
 | [isBefore](https://api.flutter.dev/flutter/dart-core/DateTime/isBefore.html) | `${now().isBefore(other)}` |
 | [isUtc](https://api.flutter.dev/flutter/dart-core/DateTime/isUtc.html) | `${now().isUtc}` |
