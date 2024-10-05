@@ -362,6 +362,7 @@ In addition to the items supported by the [Iterable](#iterable) class, a [List](
 | Function | Example |
 |----------|---------|
 | [asMap](https://api.flutter.dev/flutter/dart-core/List/asMap.html) | `${list.asMap()[2]}` |
+| path(String jsonPath) | Applys the JSON path to return the first matching value.
 | [reversed](https://api.flutter.dev/flutter/dart-core/List/reversed.html) | `${list.reversed.first}` |
 | toJson([int padding]) | `${list.toJson(2)}` |
 | [sort](https://api.flutter.dev/flutter/dart-core/List/sort.html) | `${list.sort().first}` |
@@ -435,6 +436,7 @@ The following [Map](https://api.flutter.dev/flutter/dart-core/Map-class.html) me
 | [isNotEmpty](https://api.flutter.dev/flutter/dart-core/Map/isNotEmpty.html) | `${map.isNotEmpty ? map.values.first : 'null'}` |
 | [length](https://api.flutter.dev/flutter/dart-core/Map/length.html) | `${map.length}` |
 | [remove](https://api.flutter.dev/flutter/dart-core/Map/remove.html) | `${map.remove('key')}` |
+| path(String jsonPath) | Applys the JSON path to return the first matching value.
 | toJson([int padding]) | `${map.toJson(2)}` |
 | [values](https://api.flutter.dev/flutter/dart-core/Map/values.html) | `${map.values.first}` |
 
@@ -521,11 +523,17 @@ The following [String](https://api.flutter.dev/flutter/dart-core/String-class.ht
 | [length](https://api.flutter.dev/flutter/dart-core/String/length.html) | `${str.length}` |
 | [padLeft](https://api.flutter.dev/flutter/dart-core/String/padLeft.html) | `${str.padLeft(2, ' ')}` |
 | [padRight](https://api.flutter.dev/flutter/dart-core/String/padRight.html) | `${str.padRight(2, ' ')}` |
+| path(String jsonPath) | `${str.path($.firstName)}` | Attempts to decode the string using JSON or YAML and then applys the JSON path to return the first matching value.
 | [replaceAll](https://api.flutter.dev/flutter/dart-core/String/replaceAll.html) | `${str.replaceAll('other', 'foo')}` |
 | [replaceFirst](https://api.flutter.dev/flutter/dart-core/String/replaceFirst.html) | `${str.replaceFirst('other', 'foo')}` |
 | [split](https://api.flutter.dev/flutter/dart-core/String/split.html) | `${str.split(',').join('\n')}` |
 | [startsWith](https://api.flutter.dev/flutter/dart-core/String/startsWith.html) | `${str.startsWith('other')}` |
 | [substring](https://api.flutter.dev/flutter/dart-core/String/substring.html) | `${str.substring(begin, end)}` |
+| toBool | `${str.toBool()}` | Converts the string to a `bool`.  The result will be `true` if and only if the lower case version of the string equals the value of `"true"`.
+| toDouble | `${str.toDouble()}` | Attempts to convert the string into a `double`.  Should the parsing fail, the result will be `null`.
+| toInt | `${str.toInt()}` | Attempts to convert the string into an `int`.  Should the parsing fail, the result will be `null`.
+| [toLowerCase](https://api.flutter.dev/flutter/dart-core/String/toLowerCase.html) | `${str.toLowerCase()}` |
+| [toLowerCase](https://api.flutter.dev/flutter/dart-core/String/toLowerCase.html) | `${str.toLowerCase()}` |
 | [toLowerCase](https://api.flutter.dev/flutter/dart-core/String/toLowerCase.html) | `${str.toLowerCase()}` |
 | [toUpperCase](https://api.flutter.dev/flutter/dart-core/String/toUpperCase.html) | `${str.toUpperCase()}` |
 | [trim](https://api.flutter.dev/flutter/dart-core/String/trim.html) | `${str.trim()}` |

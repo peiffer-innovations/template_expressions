@@ -1,7 +1,8 @@
-## [3.2.0+10] - October 1, 2024
+## [3.3.0] - October 5th, 2024
 
-* Automated dependency updates
-
+* Adds `path` to `Map`, `List`, and `String` objects to find the json path value.
+* Adds `NumberFormat` as an option
+* Adds `format` to all `num` types to apply the `NumberFormat` pattern.
 
 ## [3.2.0+9] - June 11, 2024
 

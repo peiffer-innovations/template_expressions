@@ -1,4 +1,4 @@
-library;
+library expressions.core;
 
 import 'package:meta/meta.dart';
 import 'package:petitparser/petitparser.dart';

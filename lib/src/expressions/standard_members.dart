@@ -34,6 +34,8 @@ dynamic lookupStandardMembers(dynamic target, String name) {
     result = _processMap(target, name);
   } else if (target is MapEntry) {
     result = _processMapEntry(target, name);
+  } else if (target is NumberFormat) {
+    result = _processNumberFormat(target, name);
   } else if (target is double || target is int || target is num) {
     result = _processNum(target, name);
   } else if (target is String) {
@@ -148,6 +150,10 @@ dynamic _processDateTime(DateTime target, String name) {
 
     case 'compareTo':
       result = target.compareTo;
+      break;
+
+    case 'format':
+      result = (pattern) => DateFormat(pattern).format(target);
       break;
 
     case 'isAfter':
@@ -370,6 +376,10 @@ dynamic _processList(List target, String name) {
       result = target.reversed;
       break;
 
+    case 'path':
+      result = (path) => JsonPath(path).readValues(target).first;
+      break;
+
     case 'sort':
       result = () {
         target.sort((a, b) {
@@ -482,6 +492,10 @@ dynamic _processMap(Map target, String name) {
       result = target.length;
       break;
 
+    case 'path':
+      result = (path) => JsonPath(path).readValues(target).first;
+      break;
+
     case 'remove':
       result = target.remove;
       break;
@@ -555,6 +569,10 @@ dynamic _processNum(num target, String name) {
       result = target.floorToDouble;
       break;
 
+    case 'format':
+      result = (format) => NumberFormat(format).format(target);
+      break;
+
     case 'isFinite':
       result = target.isFinite;
       break;
@@ -619,6 +637,21 @@ dynamic _processNum(num target, String name) {
   return result;
 }
 
+dynamic _processNumberFormat(NumberFormat target, String name) {
+  dynamic result;
+  switch (name) {
+    case 'format':
+      result = target.format;
+      break;
+
+    case 'parse':
+      result = target.parse;
+      break;
+  }
+
+  return result;
+}
+
 dynamic _processRsa(Rsa target, String name) {
   dynamic result;
 
@@ -672,7 +705,10 @@ dynamic _processString(String target, String name) {
       break;
 
     case 'decode':
-      result = () => yaon.parse(target);
+      result = () => yaon.parse(
+            target,
+            normalize: true,
+          );
       break;
 
     case 'endsWith':
@@ -707,6 +743,15 @@ dynamic _processString(String target, String name) {
       result = target.padRight;
       break;
 
+    case 'path':
+      result = (path) => JsonPath(path)
+          .readValues(yaon.parse(
+            target,
+            normalize: true,
+          ))
+          .first;
+      break;
+
     case 'replaceAll':
       result = target.replaceAll;
       break;
@@ -727,8 +772,20 @@ dynamic _processString(String target, String name) {
       result = target.substring;
       break;
 
+    case 'toBool':
+      result = target.toLowerCase() == 'true';
+      break;
+
     case 'toLowerCase':
       result = target.toLowerCase;
+      break;
+
+    case 'toDouble':
+      result = () => double.tryParse(target);
+      break;
+
+    case 'toInt':
+      result = () => double.tryParse(target)?.toInt();
       break;
 
     case 'toUpperCase':
