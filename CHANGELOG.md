@@ -1,3 +1,8 @@
+## [3.3.0+1] - October 8, 2024
+
+* Automated dependency updates
+
+
 ## [3.3.0] - October 5th, 2024
 
 * Adds `path` to `Map`, `List`, and `String` objects to find the json path value.
