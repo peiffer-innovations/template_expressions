@@ -260,7 +260,7 @@ void main() {
     });
 
     test('Call expression with subsequent stream results', () async {
-      await fakeAsync((async) async {
+      await fakeAsync((async) async* {
         final expression = Expression.parse('f(x)');
 
         const evaluator = AsyncExpressionEvaluator();
