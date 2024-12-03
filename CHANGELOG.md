@@ -1,3 +1,8 @@
+## [3.3.1+1] - December 3, 2024
+
+* Automated dependency updates
+
+
 ## [3.3.1] - November 30th, 2024
 
 * Updated `intl` version
