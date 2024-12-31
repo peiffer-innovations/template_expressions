@@ -1,3 +1,8 @@
+## [3.3.1+3] - December 31, 2024
+
+* Automated dependency updates
+
+
 ## [3.3.1+2] - December 10, 2024
 
 * Automated dependency updates
